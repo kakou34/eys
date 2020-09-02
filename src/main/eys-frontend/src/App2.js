@@ -14,18 +14,18 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {useState, useEffect} from "react";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import AuthService from "./services/auth.service";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Home from "./components/Home";
-import Profile from "./components/Profile";
-import BoardUser from "./components/BoardUser";
-import BoardAdmin from "./components/BoardAdmin";
-import ListItemsAdmin  from "./components/AdminSideBar";
-import ListItemsUser from "./components/UserSideBar";
-import AddEvent from "./components/AddEvent";
-import AddAdmin from "./components/AddAdmin";
-import EventsTable from "./components/EventsTable";
-import UpdateEvent from "./components/UpdateEvent";
+import Login from "./components/Common/Login";
+import Register from "./components/Common/Register";
+import Home from "./components/Common/Home";
+import Profile from "./components/Common/Profile";
+import BoardUser from "./components/User/BoardUser";
+import BoardAdmin from "./components/Admin/BoardAdmin";
+import ListItemsAdmin  from "./components/Admin/AdminSideBar";
+import ListItemsUser from "./components/User/UserSideBar";
+import AddEvent from "./components/Admin/AddEvent";
+import AddAdmin from "./components/Admin/AddAdmin";
+import EventsTable from "./components/Common/EventsTable";
+import UpdateEvent from "./components/Admin/UpdateEvent";
 import './App.css';
 
 
@@ -86,6 +86,8 @@ const useStyles = makeStyles((theme) => ({
         }),
         marginLeft: 0,
     },
+
+
 }));
 
 export default function App() {
@@ -139,7 +141,7 @@ export default function App() {
                         ><MenuIcon/>
                         </IconButton>
                         )}
-                        <Link to={"/home"}>
+                        <Link to={"/home"} className="navlink">
                             HOME
                         </Link>
                     </span>

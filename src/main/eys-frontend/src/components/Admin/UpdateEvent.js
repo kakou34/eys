@@ -8,10 +8,10 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Copyright from "./Copyright";
-import EventService from  "../services/event.service"
+import Copyright from "../Common/Copyright";
+import EventService from "../../services/event.service"
 import axios from "axios";
-import authHeader from "../services/auth-header";
+import authHeader from "../../services/auth-header";
 import { useParams } from "react-router-dom";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -20,13 +20,13 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import ReactDialog from "./Common/ReactDialog";
+import ReactDialog from "../Common/ReactDialog";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
-import Map from "./map/Map";
+import Map from "../map/Map";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function UpdateEvent() {
+export default function UpdateEvent(props) {
     const classes = useStyles();
     const eventName = useParams().eventName;
     const [name, setName] = React.useState("");
@@ -63,6 +63,7 @@ export default function UpdateEvent() {
     const [endDate, setEndDate] = React.useState("2020-01-01");
     const [location, setLocation] = React.useState( { address: 'Event Address', lat: 0, lng: 0});
 
+    const handleNameChange = event => setName(event.target.value);
     const handleQuotaChange = event => setQuota(event.target.value);
     const handleAltitudeChange = event => setAltitude(event.target.value);
     const handleLongitudeChange = event => setLongitude(event.target.value);
@@ -106,7 +107,7 @@ export default function UpdateEvent() {
 
     const handleSubmit = () => {
         const toInput = { name, quota, altitude, longitude, startDate: startDate, endDate: endDate };
-        EventService.updateEvent(name, toInput)
+        EventService.updateEvent(eventName, toInput)
             .then(response => {
                 console.log(response.data);
                 if (response.data.messageType === "SUCCESS") {
@@ -115,6 +116,7 @@ export default function UpdateEvent() {
                     toast.error(response.data.message, toastOptions);
                 }
             });
+        props.history.push('/updateEvent/' + name);
     };
 
     const onQuestionDelete = (eventName, question) => {
@@ -156,10 +158,24 @@ export default function UpdateEvent() {
             <ToastContainer/>
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">
-                    {name}
+                    Update Event
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField
+                                autoComplete="name"
+                                name="name"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="name"
+                                label="Event Name"
+                                value={name}
+                                autoFocus
+                                onChange={handleNameChange}
+                            />
+                        </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={4}>
                             <TextField
                                 variant="outlined"
@@ -249,7 +265,9 @@ export default function UpdateEvent() {
                 </form>
             </div>
             <Divider/>
-            <Map location={location} zoomLevel={17} />
+            {/*<Map location={location} zoomLevel={17} />*/}
+            <a href={"https://www.google.com/maps/search/?api=1&query="+ altitude +","+ longitude }  target="_blank" > View Event Location on Maps</a>
+
             <Divider/>
             <h3>Application Form Questions</h3>
             <TableContainer component={Paper}>

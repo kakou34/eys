@@ -5,12 +5,12 @@ import "./App.css";
 
 import AuthService from "./services/auth.service";
 
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Home from "./components/Home";
-import Profile from "./components/Profile";
-import BoardUser from "./components/BoardUser";
-import BoardAdmin from "./components/BoardAdmin";
+import Login from "./components/Common/Login";
+import Register from "./components/Common/Register";
+import Home from "./components/Common/Home";
+import Profile from "./components/Common/Profile";
+import BoardUser from "./components/User/BoardUser";
+import BoardAdmin from "./components/Admin/BoardAdmin";
 
 const App = () => {
   const [showAdminBoard, setShowAdminBoard] = useState(false);

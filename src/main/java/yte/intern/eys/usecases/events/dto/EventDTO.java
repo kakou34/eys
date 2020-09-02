@@ -5,9 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.validation.constraints.AssertTrue;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 
 @Getter
@@ -32,11 +30,15 @@ public class EventDTO {
     public final Integer quota;
 
     @JsonProperty("altitude")
+    @Min(value = -90, message = "Latitude cannot be less than -90")
+    @Max(value = 90, message = "Latitude cannot be more than 90")
     @NotNull(message = "Event geographical location is required")
     public final Double altitude;
 
     @JsonProperty("longitude")
     @NotNull(message = "Event geographical location is required")
+    @Min(value = -180, message = "Longitude cannot be less than -180")
+    @Max(value = 180, message = "Latitude cannot be more than 180")
     public final Double longitude;
 
     @JsonCreator

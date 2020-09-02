@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import PaginationTable from "../components/table/PaginationTable";
+import PaginationTable from "../table/PaginationTable";
 import axios from "axios";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import EventService from  "../services/event.service";
-import authHeader from "../services/auth-header";
+import EventService from "../../services/event.service";
+import authHeader from "../../services/auth-header";
 
 export default function EventsTable(props) {
 
