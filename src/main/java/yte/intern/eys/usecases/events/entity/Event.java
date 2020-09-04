@@ -5,6 +5,7 @@ import lombok.Setter;
 import yte.intern.eys.usecases.common.entity.BaseEntity;
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -34,12 +35,15 @@ public class Event extends BaseEntity {
     @OneToMany(mappedBy="event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<FormQuestion> formQuestions;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "EVENT_ID")
+    @OneToMany(mappedBy="event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<FormSubmission> formSubmissions;
 
     public boolean hasFormQuestion(String question) {
         return formQuestions.stream().anyMatch(it -> it.getQuestion().equals(question));
+    }
+
+    public Optional<FormQuestion> getQuestion(String question) {
+        return formQuestions.stream().filter(it -> it.getQuestion().equals(question)).findFirst();
     }
 
 

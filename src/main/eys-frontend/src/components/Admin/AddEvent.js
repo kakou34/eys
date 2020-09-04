@@ -8,7 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from "../Common/Copyright";
-import EventService from "../../services/event.service"
+import EventService from "../../services/event.service";
+import {toast, ToastContainer} from 'react-toastify';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -32,15 +33,27 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddEvent() {
     const classes = useStyles();
+    const toastOptions = {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+    };
+    const currentDate = new Date();
+    const day = currentDate.getDate();
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+    const today = "" + year + "-" + ("0" + month).slice(-2) + "-" + ("0" + day).slice(-2) ;
     const [firstLoad, setLoad] = React.useState(true);
     const [name, setName] = React.useState("");
     const [quota, setQuota] = React.useState(0);
     const [altitude, setAltitude] = React.useState(0.0);
     const [longitude, setLongitude] = React.useState(0.0);
-    const [startDate, setStartDate] = React.useState("2020-01-01");
-    const [endDate, setEndDate] = React.useState("2020-01-01");
-    const [responseMessage, setResponseMessage] = React.useState("");
-
+    const [startDate, setStartDate] = React.useState(today);
+    const [endDate, setEndDate] = React.useState(today);
     const handleNameChange = event => setName(event.target.value);
     const handleQuotaChange = event => setQuota(event.target.value);
     const handleAltitudeChange = event => setAltitude(event.target.value);
@@ -48,47 +61,25 @@ export default function AddEvent() {
     const handleStartDateChange = event => setStartDate(event.target.value);
     const handleEndDateChange = event => setEndDate(event.target.value);
 
-    const handleSubmit = variables => {
-        const toInput = { name, quota, altitude, longitude, startDate: startDate, endDate: endDate };
-        EventService.addEvent(toInput).then(response => console.log(response.data.message));
-        setName("");
-        setQuota(0);
-        setLongitude(0);
-        setAltitude(0);
+    const handleSubmit = e => {
+            const toInput = {name, quota, altitude, longitude, startDate: startDate, endDate: endDate};
+            EventService.addEvent(toInput).then(response => {
+                if (response.data.messageType === "SUCCESS") {
+                    setName("");
+                    setQuota(0);
+                    setLongitude(0);
+                    setAltitude(0);
+                    toast.success(response.data.message, toastOptions);
+                } else {
+                    toast.error(response.data.message, toastOptions);
+                }
+            });
     };
 
     if (firstLoad) {
         setLoad(false);
     }
 
-    //Validation methods:
-    const required = (value) => {
-        if (!value) {
-            return (
-                <div className="alert alert-danger" role="alert">
-                    This field is required!
-                </div>
-            );
-        }
-    };
-    const isLatitudeValid = (value) => {
-        if (value< -90 || value > 90) {
-            return (
-                <div className="alert alert-danger" role="alert">
-                    Latitude must be between -90 and 90
-                </div>
-            );
-        }
-    };
-    const isLongitudeValid = (value) => {
-        if (value< -180 || value > 180) {
-            return (
-                <div className="alert alert-danger" role="alert">
-                    Longitude must be between -180 and 180
-                </div>
-            );
-        }
-    };
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -96,11 +87,11 @@ export default function AddEvent() {
                 <Typography component="h1" variant="h5">
                     ADD A NEW EVENT
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} >
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
-                                autoComplete="name"
+                                error={name === ""}
                                 name="name"
                                 variant="outlined"
                                 required
@@ -110,8 +101,9 @@ export default function AddEvent() {
                                 value={name}
                                 autoFocus
                                 onChange={handleNameChange}
-
+                                helperText={name === "" && "Name is required"}
                             />
+
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
@@ -124,7 +116,7 @@ export default function AddEvent() {
                                 value={startDate}
                                 autoComplete="startDate"
                                 type="date"
-                                defaultValue="2020-01-01"
+                                defaultValue={today}
                                 dateFormat={"yyyy-mm-dd"}
                                 onChange={handleStartDateChange}
                             />
@@ -140,13 +132,14 @@ export default function AddEvent() {
                                 value={endDate}
                                 autoComplete="endDate"
                                 type="date"
-                                defaultValue="2020-01-01"
+                                defaultValue={today}
                                 dateFormat={"yyyy-mm-dd"}
                                 onChange={handleEndDateChange}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
+                                error={ quota === '' || isNaN(quota) || quota < 0}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -154,46 +147,54 @@ export default function AddEvent() {
                                 value={quota}
                                 label="Quota"
                                 type="text"
-                                pattern="[0-9]*"
                                 id="quota"
                                 onChange={handleQuotaChange}
-
+                                helperText={(quota === '' || isNaN(quota) || quota < 0) && "Quota is required and must be positive"}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
+                                error={altitude === '' || isNaN(altitude) || altitude < -90 || altitude> 90}
                                 variant="outlined"
                                 required
                                 fullWidth
                                 name="altitude"
                                 label="Latitude"
                                 value={altitude}
-                                type="text"
-                                pattern="[0-9]*"
+                                type="number"
                                 id="altitude"
-                                validations={[required, isLatitudeValid]}
                                 onChange={handleAltitudeChange}
+                                helperText={(altitude === '' || isNaN(altitude) || altitude < -90 || altitude> 90)
+                                                && "Latitude must be a number between -90 and 90"
+                                            }
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
+                                error={longitude === '' || isNaN(longitude) || longitude < -180 || longitude> 180}
                                 variant="outlined"
                                 required
                                 fullWidth
                                 name="longitude"
                                 label="Longitude"
-                                type="text"
-                                pattern="[0-9]*"
+                                type="number"
                                 id="longitude"
                                 value={longitude}
-                                validations={[required, isLongitudeValid]}
                                 onChange={handleLongitudeChange}
-
+                                helperText={(longitude === '' || isNaN(longitude) || longitude < -180 || longitude> 180)
+                                && "Longitude must be a number between -180 and 180"
+                                }
                             />
+
                         </Grid>
 
                     </Grid>
                     <Button
+                        disabled={(
+                            name === "" ||
+                            isNaN(quota) || quota < 0 ||
+                            isNaN(longitude) || longitude < -180 || longitude> 180 ||
+                            isNaN(altitude) || altitude < -90 || altitude> 90 )}
                         fullWidth
                         variant="contained"
                         color="primary"
@@ -204,7 +205,7 @@ export default function AddEvent() {
                         Save
                     </Button>
                 </form>
-
+                <ToastContainer/>
 
             </div>
             <Box mt={5}>

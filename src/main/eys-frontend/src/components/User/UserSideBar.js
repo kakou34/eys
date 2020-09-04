@@ -21,17 +21,17 @@ const ListItemsUser = () => {
                     </ListItemIcon>
                     <ListItemText primary="Dashboard"/>
                 </ListItem>
-                <ListItem button>
+                <ListItem button component={Link} to={"/availableEvents"}>
                     <ListItemIcon>
                         <ListIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Available Events List"/>
+                    <ListItemText primary="Available Events"/>
                 </ListItem>
                 <ListItem button>
                     <ListItemIcon>
                         <BarChartIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="My Upcoming Events"/>
+                    <ListItemText primary="Upcoming Events"/>
                 </ListItem>
             </List>
             <Divider/>

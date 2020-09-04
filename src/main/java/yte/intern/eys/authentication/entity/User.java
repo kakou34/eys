@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import yte.intern.eys.usecases.events.entity.FormAnswer;
-import yte.intern.eys.usecases.events.entity.FormQuestion;
 import yte.intern.eys.usecases.events.entity.FormSubmission;
 import yte.intern.eys.validation.TcKimlikNo;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -47,7 +45,6 @@ public class User {
     private String email;
 
     @NotBlank
-    @Size(min=8, max = 40)
     private String password;
 
     @NotBlank
@@ -60,13 +57,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "authority_id"))
     private Set<Authority> authorities = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<FormSubmission> formSubmissions;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<FormAnswer> formAnswers;
-
 
 }

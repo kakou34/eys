@@ -61,7 +61,7 @@ export default function UpdateEvent(props) {
     const [longitude, setLongitude] = React.useState(0.0);
     const [startDate, setStartDate] = React.useState("2020-01-01");
     const [endDate, setEndDate] = React.useState("2020-01-01");
-    const [location, setLocation] = React.useState( { address: 'Event Address', lat: 0, lng: 0});
+    //const [location, setLocation] = React.useState( { address: 'Event Address', lat: 0, lng: 0});
 
     const handleNameChange = event => setName(event.target.value);
     const handleQuotaChange = event => setQuota(event.target.value);
@@ -142,7 +142,7 @@ export default function UpdateEvent(props) {
                 setStartDate(response.data.startDate);
                 setAltitude(response.data.altitude);
                 setLongitude(response.data.longitude);
-                setLocation ({ address: 'Event Location', lat: response.data.altitude , lng: response.data.longitude});
+                //setLocation ({ address: 'Event Location', lat: response.data.altitude , lng: response.data.longitude});
             });
         EventService.getEventQuestion(eventName)
             .then(response => {
@@ -164,6 +164,7 @@ export default function UpdateEvent(props) {
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
+                                error={name === ""}
                                 autoComplete="name"
                                 name="name"
                                 variant="outlined"
@@ -174,6 +175,7 @@ export default function UpdateEvent(props) {
                                 value={name}
                                 autoFocus
                                 onChange={handleNameChange}
+                                helperText={name === "" && "Name is required"}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={4}>
@@ -210,6 +212,7 @@ export default function UpdateEvent(props) {
                         </Grid>
                         <Grid item xs={12} md={4} lg={4}>
                             <TextField
+                                error={ quota === '' || isNaN(quota) || quota < 0}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -219,11 +222,12 @@ export default function UpdateEvent(props) {
                                 type="number"
                                 id="quota"
                                 onChange={handleQuotaChange}
-
+                                helperText={(quota === '' || isNaN(quota) || quota < 0) && "Quota is required and must be positive"}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={4}>
                             <TextField
+                                error={altitude === '' || isNaN(altitude) || altitude < -90 || altitude> 90}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -233,10 +237,14 @@ export default function UpdateEvent(props) {
                                 type="number"
                                 id="altitude"
                                 onChange={handleAltitudeChange}
+                                helperText={(altitude === '' || isNaN(altitude) || altitude < -90 || altitude> 90)
+                                && "Latitude must be a number between -90 and 90"
+                                }
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={4}>
                             <TextField
+                                error={longitude === '' || isNaN(longitude) || longitude < -180 || longitude> 180}
                                 variant="outlined"
                                 required
                                 fullWidth
@@ -246,11 +254,19 @@ export default function UpdateEvent(props) {
                                 id="longitude"
                                 value={longitude}
                                 onChange={handleLongitudeChange}
+                                helperText={(longitude === '' || isNaN(longitude) || longitude < -180 || longitude> 180)
+                                && "Longitude must be a number between -180 and 180"
+                                }
 
                             />
                         </Grid>
                         <Grid item xs={12} sm={6} md={4} lg={4}>
                             <Button
+                                disabled={(
+                                    name === "" ||
+                                    isNaN(quota) || quota < 0 || quota === "" ||
+                                    isNaN(longitude) || longitude < -180 || longitude> 180 || longitude === "" ||
+                                    isNaN(altitude) || altitude < -90 || altitude> 90 ) || altitude === ""}
                                 fullWidth
                                 variant="contained"
                                 color="primary"
@@ -286,7 +302,7 @@ export default function UpdateEvent(props) {
                                     Add Question
                                 </Button>
                                 <ReactDialog fields={questionDialogFields} title="Add Question" isOpen={isAddQuestionModalOpen}
-                                             onClose={toggleAddQuestionModal}
+                                             onClose={toggleAddQuestionModal} infos = {null}
                                              onSubmit={submitQuestionAdd}/>
                             </TableCell>
                         </TableRow>

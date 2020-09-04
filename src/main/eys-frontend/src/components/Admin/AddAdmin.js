@@ -121,11 +121,6 @@ const AddAdmin = (props) => {
     return (
         <div className="col-md-12">
             <div className="card card-container">
-                <img
-                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                    alt="profile-img"
-                    className="profile-img-card"
-                />
 
                 <Form onSubmit={handleRegister} ref={form}>
                     {!successful && (
@@ -139,18 +134,6 @@ const AddAdmin = (props) => {
                                     value={username}
                                     onChange={onChangeUsername}
                                     validations={[required, vusername]}
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="email">Email</label>
-                                <Input
-                                    type="text"
-                                    className="form-control"
-                                    name="email"
-                                    value={email}
-                                    onChange={onChangeEmail}
-                                    validations={[required, validEmail]}
                                 />
                             </div>
 
@@ -185,6 +168,17 @@ const AddAdmin = (props) => {
                                     value={lastname}
                                     onChange={onChangeLastname}
                                     validations={[required]}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="email">Email</label>
+                                <Input
+                                    type="text"
+                                    className="form-control"
+                                    name="email"
+                                    value={email}
+                                    onChange={onChangeEmail}
+                                    validations={[required, validEmail]}
                                 />
                             </div>
 

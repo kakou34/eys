@@ -26,6 +26,7 @@ import AddEvent from "./components/Admin/AddEvent";
 import AddAdmin from "./components/Admin/AddAdmin";
 import EventsTable from "./components/Common/EventsTable";
 import UpdateEvent from "./components/Admin/UpdateEvent";
+import ApplicationForm from "./components/User/ApplicationForm";
 import './App.css';
 
 
@@ -86,7 +87,6 @@ const useStyles = makeStyles((theme) => ({
         }),
         marginLeft: 0,
     },
-
 
 }));
 
@@ -212,9 +212,11 @@ export default function App() {
                                 <Route path="/admin" component={BoardAdmin}/>
                                 <Route path="/addEvent" component={AddEvent}/>
                                 <Route path="/addAdmin" component={AddAdmin}/>
-                                <Route path="/NextEventsList" component={(routeProps) => <EventsTable {...routeProps} isNext={true} />}/>
-                                <Route path="/OldEventsList" component={() => <EventsTable isNext={false} />}/>
+                                <Route path="/NextEventsList" component={(routeProps) => <EventsTable {...routeProps} isNext={true} isAdmin = {showAdminBoard } /> } />
+                                <Route path="/OldEventsList" component={() => <EventsTable isNext={false}  isAdmin = {showAdminBoard}/>}/>
+                                <Route path={"/availableEvents"} component={(routeProps) => <EventsTable {...routeProps} isNext={true} isAdmin = {showAdminBoard} /> } />
                                 <Route path="/updateEvent/:eventName" component={UpdateEvent}/>
+                                <Route path="/apply/:eventName" component={ApplicationForm} />
                             </Switch>
                         </div>
                     </Typography>

@@ -18,8 +18,7 @@ public class FormQuestion extends BaseEntity {
     @JoinColumn(name="EVENT_ID", nullable=false)
     private Event event;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "QUESTION_ID")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "formQuestion")
     private Set<FormAnswer> formAnswers;
 
 

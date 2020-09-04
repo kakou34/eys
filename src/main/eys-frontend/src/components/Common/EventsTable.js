@@ -5,7 +5,6 @@ import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EventService from "../../services/event.service";
 import authHeader from "../../services/auth-header";
-
 export default function EventsTable(props) {
 
     const [rows, updateRows] = useState([]);
@@ -43,21 +42,41 @@ export default function EventsTable(props) {
     const onEventUpdate = (eventName) => {
         props.history.push("/updateEvent/" + eventName);
     }
+    const onEventApply = (eventName) => {
+        props.history.push("/apply/" + eventName);
+
+    }
+    const onOpenMaps = (altitude, longitude) => {
+            const link = "https://www.google.com/maps/search/?api=1&query="+ altitude +","+ longitude ;
+            window.open(link, "_blank");
+    }
 
 
     const eventsTableColumns = [
         {id: 'name', label: 'Name', minWidth: 170},
         {id: 'startDate', label: 'Start Date', minWidth: 170},
         {id: 'endDate', label: 'End Date', minWidth: 170},
-        {id: 'quota', label: 'Quota', minWidth: 100},
-        {id: 'altitude', label: 'Latitude', minWidth: 100},
-        {id: 'longitude', label: 'longitude', minWidth: 100},
+
     ];
 
-    if(props.isNext) {
+    if(props.isAdmin) {
+        eventsTableColumns.push(
+            {id: 'quota', label: 'Quota', minWidth: 100},
+            {id: 'altitude', label: 'Latitude', minWidth: 100},
+            {id: 'longitude', label: 'longitude', minWidth: 100},
+        )
+    }
+
+    if(props.isNext && props.isAdmin) {
         eventsTableColumns.push(
             {id: "update", label: "Update Event", align: "right", onClick: onEventUpdate},
-            {id: "delete", label: "Delete Event", align: "right", onClick: onEventDelete}
+            {id: "delete", label: "Delete Event", align: "right", onClick: onEventDelete},
+        )
+    }
+    if(props.isNext && !props.isAdmin) {
+        eventsTableColumns.push(
+            {id: "location", label: "Location", align: "right", onClick: onOpenMaps},
+            {id: "apply", label: "Apply", align: "right", onClick: onEventApply}
         )
     }
 

@@ -7,13 +7,11 @@ import yte.intern.eys.usecases.events.entity.Event;
 import yte.intern.eys.usecases.events.entity.FormQuestion;
 import yte.intern.eys.usecases.events.repository.EventRepository;
 import yte.intern.eys.usecases.events.repository.FormQuestionRepository;
-
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import static java.util.stream.Collectors.toSet;
 import static yte.intern.eys.usecases.common.enums.MessageType.ERROR;
 import static yte.intern.eys.usecases.common.enums.MessageType.SUCCESS;
 
@@ -27,8 +25,8 @@ public class EventService {
         return eventRepository.findByStartDateAfter(today);
     }
     public List<Event> listOldEvents() {
-        LocalDate today = LocalDate.now();
-        return eventRepository.findByStartDateBefore(today);
+        LocalDate tomorrow = LocalDate.now().plusDays(1);
+        return eventRepository.findByStartDateBefore(tomorrow);
     }
 
     public Event getEventByName(String name) {
@@ -116,6 +114,4 @@ public class EventService {
         }
         return new MessageResponse(String.format("Question %s can't be found!", question), ERROR);
     }
-
-
 }

@@ -7,20 +7,26 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 
 export default function ReactDialog(props) {
-
     const [inputData, updateInputData] = useState({});
-
     const handleInputChange = (event) => {
         event.persist();
         let newInputData = {...inputData};
         newInputData[event.target.id] = event.target.value;
         updateInputData(newInputData);
     }
-
     return (
         <Dialog open={props.isOpen} onClose={props.onClose} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">{props.title}</DialogTitle>
             <DialogContent>
+
+                { !(props.infos == null) && props.infos.map(field => (
+                        <TextField
+                            margin="dense" id={field.id} key={field.id}
+                            label={field.label} type={field.type} fullWidth
+                            value={field.value}
+                            disabled/>
+                    )
+                )}
                 {props.fields.map(field => (
                         <TextField
                             margin="dense" id={field.id} key={field.id}
@@ -28,7 +34,6 @@ export default function ReactDialog(props) {
                             onChange={handleInputChange}/>
                     )
                 )}
-
             </DialogContent>
             <DialogActions>
                 <Button onClick={props.onClose} color="primary">
@@ -42,5 +47,4 @@ export default function ReactDialog(props) {
             </DialogActions>
         </Dialog>
     );
-
 }

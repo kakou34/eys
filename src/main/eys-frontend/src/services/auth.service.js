@@ -1,6 +1,7 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
+
 const register = (username, email, password, firstname, lastname, turkishID) => {
     return axios.post( "/api/auth/signup", {
         username,

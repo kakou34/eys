@@ -1,11 +1,8 @@
 package yte.intern.eys.authentication.payload.request;
-
 import lombok.Getter;
 import lombok.Setter;
 import yte.intern.eys.validation.TcKimlikNo;
-
 import java.util.Set;
-
 import javax.validation.constraints.*;
 
 @Getter
@@ -29,7 +26,7 @@ public class SignupRequest {
     private Set<String> authority;
 
     @NotBlank
-    @Size(min = 6, max = 40)
+    @Size(min = 8, max = 40)
     private String password;
 
     @NotBlank

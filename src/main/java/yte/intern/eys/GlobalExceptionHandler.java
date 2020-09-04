@@ -1,5 +1,4 @@
 package yte.intern.eys;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,21 +16,17 @@ public class GlobalExceptionHandler {
         String message = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
         return ResponseEntity.ok(new MessageResponse(message, MessageType.ERROR));
     }
-
     //this is used when a DB constraint is violated
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<MessageResponse> handleConstraintViolationException(ConstraintViolationException e, WebRequest request) {
         String message = e.getMessage();
+        if(e.getConstraintName().equals("uk4vdivj3t3trfskka4g9of4d21")) message = "You have already applied for this event";
         return ResponseEntity.ok(new MessageResponse(message, MessageType.ERROR));
     }
-
     //this is used when the data that comes in the JSON object is not valid (text instead of number)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<MessageResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException e, WebRequest request) {
         String message = "The data you entered is not valid, please check and try again.";
         return ResponseEntity.ok(new MessageResponse(message, MessageType.ERROR));
     }
-
-
-
 }
