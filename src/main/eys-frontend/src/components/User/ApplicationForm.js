@@ -61,18 +61,42 @@ export default function ApplicationForm(props) {
     }
 
     const handleSubmit = () => {
-        ApplicationService.addSubmission(eventName, currentUser.username, null).then(response => {
-            if (response.data.messageType === "SUCCESS") {
-                rows.forEach(row => {
-                    ApplicationService.addAnswer(eventName, currentUser.username, row.question, row.answer).then(response => {
-                        if (response.data.messageType === "ERROR") toast.error(response.data.message, toastOptions);
-                    })
-                });
-                toast.success(response.data.message, toastOptions);
-            } else {
-                toast.error(response.data.message, toastOptions);
-            }
-        });
+        const emptyAnswers = rows.filter(row => row.answer === '');
+        if(emptyAnswers.length>0) {
+            toast.error("Please answer all questions and submit again", toastOptions);
+        } else {
+            //Submit application
+            ApplicationService.addSubmission(eventName, currentUser.username, null).then(
+                response => {
+                    //if the user did not apply for event before, add answers and show QR Code and send it to email
+                    if (response.data.messageType === "SUCCESS") {
+                        //adding answers
+                        rows.forEach(row => {
+                            ApplicationService.addAnswer(eventName, currentUser.username, row.question, row.answer).then(
+                                response => {
+                                    if (response.data.messageType === "ERROR") toast.error(response.data.message, toastOptions);
+                                }
+                            )
+                        });
+
+                        //sending QR Code to email
+
+                        ApplicationService.sendQRCode(eventName, currentUser.username).then(response => {
+                            console.log(response.data.message);
+                            if(response.data.messageType === "SUCCESS") {
+                                toast.success(response.data.message, toastOptions);
+                                props.history.push("/qrcode/" + eventName);
+                            }
+                            else toast.error(response.data.message, toastOptions);
+                            }
+                        )
+
+
+                    } else toast.error(response.data.message, toastOptions);
+                }
+            )
+        }
+
     }
 
 

@@ -18,15 +18,6 @@ export default function ReactDialog(props) {
         <Dialog open={props.isOpen} onClose={props.onClose} aria-labelledby="form-dialog-title">
             <DialogTitle id="form-dialog-title">{props.title}</DialogTitle>
             <DialogContent>
-
-                { !(props.infos == null) && props.infos.map(field => (
-                        <TextField
-                            margin="dense" id={field.id} key={field.id}
-                            label={field.label} type={field.type} fullWidth
-                            value={field.value}
-                            disabled/>
-                    )
-                )}
                 {props.fields.map(field => (
                         <TextField
                             margin="dense" id={field.id} key={field.id}

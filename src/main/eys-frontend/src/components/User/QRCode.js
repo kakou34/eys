@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import authHeader from "../services/auth-header";
+import authHeader from "../../services/auth-header";
+import { useParams } from "react-router-dom";
+import AuthService from "../../services/auth.service";
+import ApplicationService from "../../services/application.service";
 
 
-const TestQRCode = () => {
-    const [content, setContent] = useState("");
+const QRCode = () => {
+    const [content, setContent] = useState("https://icon-library.com/images/error-image-icon/error-image-icon-23.jpg");
+    const eventName = useParams().eventName;
+    const currentUser = AuthService.getCurrentUser();
 
     useEffect(() => {
-        axios.get("/apply/qrcode/123456789", { responseType: 'arraybuffer', headers: authHeader() })
+        ApplicationService.generateQRCode(eventName, currentUser.username)
             .then((response) => {
                 let image = btoa(
                     new Uint8Array(response.data)
                         .reduce((data, byte) => data + String.fromCharCode(byte), '')
                 );
-                console.log(`data:${response.headers['content-type'].toLowerCase()};base64,${image}`);
                 setContent( `data:${response.headers['content-type'].toLowerCase()};base64,${image}`);
             });
     }, []);
@@ -21,11 +25,11 @@ const TestQRCode = () => {
     return (
         <div className="container">
             <header className="jumbotron">
-                <h3>IMAGE:</h3>
-                <img src={content} alt={"yoooo"}/>
+                <h3>Your QRCode:</h3>
+                <img src={content} alt={"QRcode"}/>
             </header>
         </div>
     );
 };
 
-export default TestQRCode;
+export default QRCode;

@@ -27,6 +27,7 @@ import AddAdmin from "./components/Admin/AddAdmin";
 import EventsTable from "./components/Common/EventsTable";
 import UpdateEvent from "./components/Admin/UpdateEvent";
 import ApplicationForm from "./components/User/ApplicationForm";
+import QRCode from "./components/User/QRCode";
 import './App.css';
 
 
@@ -217,6 +218,8 @@ export default function App() {
                                 <Route path={"/availableEvents"} component={(routeProps) => <EventsTable {...routeProps} isNext={true} isAdmin = {showAdminBoard} /> } />
                                 <Route path="/updateEvent/:eventName" component={UpdateEvent}/>
                                 <Route path="/apply/:eventName" component={ApplicationForm} />
+                                <Route path="/qrcode/:eventName" component={QRCode} />
+
                             </Switch>
                         </div>
                     </Typography>
