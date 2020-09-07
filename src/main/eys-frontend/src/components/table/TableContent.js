@@ -7,7 +7,7 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import IconButton from "@material-ui/core/IconButton";
 import TouchAppIcon from '@material-ui/icons/TouchApp';
 import RoomIcon from '@material-ui/icons/Room';
-
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 export default function TableContent(props) {
 
   let iconMap = {
@@ -15,6 +15,7 @@ export default function TableContent(props) {
     "delete": <DeleteIcon/>,
     "apply":  <TouchAppIcon/>,
     "location": <RoomIcon/>,
+    "applicants": <PeopleAltIcon/>,
   }
 
   return (
@@ -50,7 +51,7 @@ export default function TableContent(props) {
   function createTableCell(column, row) {
 
     let cellValue = row[column.id];
-    if (column.id === "update" || column.id === "delete" || column.id === "apply") {
+    if (column.id === "update" || column.id === "delete" || column.id === "apply" || column.id === "applicants" ) {
       cellValue = createIcon(column.id, column.onClick, row.name);
     }
     if(column.id === "location") {

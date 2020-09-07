@@ -44,24 +44,25 @@ export default function EventsTable(props) {
     }
     const onEventApply = (eventName) => {
         props.history.push("/apply/" + eventName);
-
+    }
+    const onShowApplicants = (eventName) => {
+        props.history.push("/applicants/" + eventName);
     }
     const onOpenMaps = (altitude, longitude) => {
             const link = "https://www.google.com/maps/search/?api=1&query="+ altitude +","+ longitude ;
             window.open(link, "_blank");
     }
 
-
     const eventsTableColumns = [
         {id: 'name', label: 'Name', minWidth: 170},
-        {id: 'startDate', label: 'Start Date', minWidth: 170},
-        {id: 'endDate', label: 'End Date', minWidth: 170},
+        {id: 'startDate', label: 'Start Date', minWidth: 140},
+        {id: 'endDate', label: 'End Date', minWidth: 140},
 
     ];
 
     if(props.isAdmin) {
         eventsTableColumns.push(
-            {id: 'quota', label: 'Quota', minWidth: 100},
+            {id: 'quota', label: 'Quota', minWidth: 80},
             {id: 'altitude', label: 'Latitude', minWidth: 100},
             {id: 'longitude', label: 'longitude', minWidth: 100},
         )
@@ -71,6 +72,7 @@ export default function EventsTable(props) {
         eventsTableColumns.push(
             {id: "update", label: "Update Event", align: "right", onClick: onEventUpdate},
             {id: "delete", label: "Delete Event", align: "right", onClick: onEventDelete},
+            {id: "applicants", label: "Applicants", align: "right", onClick: onShowApplicants},
         )
     }
     if(props.isNext && !props.isAdmin) {
