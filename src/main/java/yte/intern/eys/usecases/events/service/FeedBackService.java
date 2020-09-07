@@ -1,10 +1,11 @@
 package yte.intern.eys.usecases.events.service;
 
 import lombok.RequiredArgsConstructor;
-import org.checkerframework.checker.nullness.Opt;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import yte.intern.eys.authentication.entity.User;
-import yte.intern.eys.usecases.events.dto.FormAnswerDTO;
+import yte.intern.eys.usecases.events.dto.EventSubmissionCountDTO;
+import yte.intern.eys.usecases.events.dto.EventSubmissionsPerDayDTO;
 import yte.intern.eys.usecases.events.dto.QuestionAnswerDTO;
 import yte.intern.eys.usecases.events.entity.Event;
 import yte.intern.eys.usecases.events.entity.FormSubmission;
@@ -12,6 +13,7 @@ import yte.intern.eys.usecases.events.repository.EventRepository;
 import yte.intern.eys.usecases.events.repository.FormAnswerRepository;
 import yte.intern.eys.usecases.events.repository.FormSubmissionRepository;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +43,14 @@ public class FeedBackService {
         Optional<Event> eventOptional =  eventRepository.findByName(eventName);
 
         return eventOptional.map(event -> formAnswerRepository.questionsAnswersByUserAndQuestions(username, event.getFormQuestions())).orElse(null);
+    }
+
+    public List<EventSubmissionCountDTO> getEventsBySubmissionCount () {
+        return eventRepository.findEventsSubmissionCount( PageRequest.of(0, 10) );
+    }
+
+    public List<EventSubmissionsPerDayDTO> getSubmissionsPerDay(String eventName) {
+        return formSubmissionRepository.getSubmissionPerDay(eventName);
     }
 
 

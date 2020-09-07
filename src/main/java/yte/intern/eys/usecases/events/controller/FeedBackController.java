@@ -11,6 +11,8 @@ import yte.intern.eys.authentication.UserDTO;
 import yte.intern.eys.authentication.UserMapper;
 import yte.intern.eys.authentication.entity.User;
 import yte.intern.eys.usecases.events.dto.EventDTO;
+import yte.intern.eys.usecases.events.dto.EventSubmissionCountDTO;
+import yte.intern.eys.usecases.events.dto.EventSubmissionsPerDayDTO;
 import yte.intern.eys.usecases.events.dto.QuestionAnswerDTO;
 import yte.intern.eys.usecases.events.entity.Event;
 import yte.intern.eys.usecases.events.service.FeedBackService;
@@ -33,5 +35,15 @@ public class FeedBackController {
     @GetMapping("/{eventName}/{username}")
     public List<QuestionAnswerDTO> getAnswers(@PathVariable(value= "eventName") String eventName, @PathVariable(value= "username") String username){
         return feedBackService.getQuestionsAnswers(username, eventName);
+    }
+
+    @GetMapping("/EventsSubmissionCounts")
+    public List<EventSubmissionCountDTO> getEventsSubmissionCounts() {
+        return feedBackService.getEventsBySubmissionCount();
+    }
+
+    @GetMapping("/EventsSubmissionCountPerDay/{eventName}")
+    public List<EventSubmissionsPerDayDTO> getEventsSubmissionCountPerDay(@PathVariable(value= "eventName") String eventName) {
+        return feedBackService.getSubmissionsPerDay(eventName);
     }
 }

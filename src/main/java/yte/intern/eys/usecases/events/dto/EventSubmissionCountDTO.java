@@ -4,8 +4,8 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestionAnswerDTO {
-    private String question;
-    private String answer;
+public class EventSubmissionCountDTO {
+    private String EventName;
+    private Integer SubmissionCount;
 
 }

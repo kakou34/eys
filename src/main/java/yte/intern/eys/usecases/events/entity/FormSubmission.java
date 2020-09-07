@@ -6,6 +6,7 @@ import yte.intern.eys.authentication.entity.User;
 import yte.intern.eys.usecases.common.entity.BaseEntity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 
 @Entity
@@ -17,6 +18,9 @@ public class FormSubmission extends BaseEntity {
 
     @Column(name = "CHECKIN")
     private Boolean checkIn;
+
+    @Column(name = "APPLICATION_DATE")
+    private LocalDate appDate;
 
     @ManyToOne
     @JoinColumn(name="EVENT_ID", nullable=false)
