@@ -1,6 +1,5 @@
 package yte.intern.eys.usecases.events.controller;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,12 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import yte.intern.eys.authentication.UserDTO;
 import yte.intern.eys.authentication.UserMapper;
-import yte.intern.eys.authentication.entity.User;
-import yte.intern.eys.usecases.events.dto.EventDTO;
 import yte.intern.eys.usecases.events.dto.EventSubmissionCountDTO;
 import yte.intern.eys.usecases.events.dto.EventSubmissionsPerDayDTO;
 import yte.intern.eys.usecases.events.dto.QuestionAnswerDTO;
-import yte.intern.eys.usecases.events.entity.Event;
 import yte.intern.eys.usecases.events.service.FeedBackService;
 
 import java.util.List;
@@ -24,7 +20,6 @@ import java.util.List;
 @Validated
 @RequestMapping("/feedback")
 public class FeedBackController {
-
     private final FeedBackService feedBackService;
     private final UserMapper userMapper;
     @GetMapping("/{eventName}")

@@ -1,6 +1,6 @@
 package yte.intern.eys.usecases.events.repository;
 
-import org.checkerframework.checker.nullness.Opt;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,5 +16,5 @@ public interface FormSubmissionRepository extends JpaRepository<FormSubmission, 
     Optional<FormSubmission> findByUserAndEvent(String username, String eventname);
 
     @Query("SELECT new yte.intern.eys.usecases.events.dto.EventSubmissionsPerDayDTO(fs.appDate, COUNT(fs.id)) FROM FormSubmission AS fs where fs.event.name=:eventName GROUP BY fs.appDate ")
-    List<EventSubmissionsPerDayDTO> getSubmissionPerDay(String eventName);
+    List<EventSubmissionsPerDayDTO> getSubmissionPerDay(String eventName, Pageable pageable);
 }

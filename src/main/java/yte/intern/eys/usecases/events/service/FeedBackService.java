@@ -50,7 +50,7 @@ public class FeedBackService {
     }
 
     public List<EventSubmissionsPerDayDTO> getSubmissionsPerDay(String eventName) {
-        return formSubmissionRepository.getSubmissionPerDay(eventName);
+        return formSubmissionRepository.getSubmissionPerDay(eventName, PageRequest.of(0, 10));
     }
 
 
