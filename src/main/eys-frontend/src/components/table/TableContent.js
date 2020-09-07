@@ -8,6 +8,8 @@ import IconButton from "@material-ui/core/IconButton";
 import TouchAppIcon from '@material-ui/icons/TouchApp';
 import RoomIcon from '@material-ui/icons/Room';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+
 export default function TableContent(props) {
 
   let iconMap = {
@@ -16,6 +18,7 @@ export default function TableContent(props) {
     "apply":  <TouchAppIcon/>,
     "location": <RoomIcon/>,
     "applicants": <PeopleAltIcon/>,
+    "answers": <AssignmentIcon/>,
   }
 
   return (
@@ -57,6 +60,9 @@ export default function TableContent(props) {
     if(column.id === "location") {
       cellValue = createLocationIcon(column.id, column.onClick, row.altitude,row.longitude);
     }
+    if(column.id === "answers") {
+      cellValue = createAnswersIcon(column.id, column.onClick, row.username);
+    }
 
 
     return (
@@ -78,6 +84,14 @@ export default function TableContent(props) {
   function createLocationIcon(key, onClick, altitude, longitude) {
     return (
         <IconButton aria-label={key} color="primary" onClick={() => onClick(altitude, longitude)}>
+          {iconMap[key]}
+        </IconButton>
+    )
+  }
+
+  function createAnswersIcon(key, onClick, username) {
+    return (
+        <IconButton aria-label={key} color="primary" onClick={() => onClick(username)}>
           {iconMap[key]}
         </IconButton>
     )
