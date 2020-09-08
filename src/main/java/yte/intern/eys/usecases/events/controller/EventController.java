@@ -27,6 +27,7 @@ public class EventController {
     private final EventMapper eventMapper;
     private final FormQuestionMapper formQuestionMapper;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/all")
     public List<EventDTO> listAllEvents() {
         List<Event> events = eventService.listAllEvents();
@@ -39,6 +40,7 @@ public class EventController {
         return eventMapper.mapToDto(events);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/old")
     public List<EventDTO> listOldEvents() {
         List<Event> events = eventService.listOldEvents();

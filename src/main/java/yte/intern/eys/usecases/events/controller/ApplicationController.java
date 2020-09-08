@@ -1,22 +1,13 @@
 package yte.intern.eys.usecases.events.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import yte.intern.eys.usecases.common.ZXingHelper;
 import yte.intern.eys.usecases.common.dto.MessageResponse;
 import yte.intern.eys.usecases.events.dto.FormAnswerDTO;
 import yte.intern.eys.usecases.events.mapper.FormAnswerMapper;
 import yte.intern.eys.usecases.events.service.ApplicationService;
-
-import javax.annotation.security.PermitAll;
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
-import java.io.File;
 import java.io.OutputStream;
 import java.util.Objects;
 

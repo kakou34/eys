@@ -31,6 +31,7 @@ import QRCode from "./components/User/QRCode";
 import FormAnswers from "./components/Admin/FormAnswers";
 import UsersTable from "./components/Admin/UsersTable";
 import Statistics from "./components/Admin/Statistics";
+import CheckIn from "./components/Admin/CheckIn";
 import './style/App.css';
 
 const drawerWidth = 240;
@@ -224,6 +225,7 @@ export default function App() {
                                 <Route path="/answers/:eventName/:username" component={FormAnswers}/>
                                 <Route path="/qrcode/:eventName" component={QRCode} />
                                 <Route path="/statistics" component={Statistics}/>
+                                <Route path="/checkIn" component={CheckIn}/>
                             </Switch>
                         </div>
                     </Typography>

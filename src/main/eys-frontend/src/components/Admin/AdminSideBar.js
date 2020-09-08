@@ -11,6 +11,7 @@ import Divider from "@material-ui/core/Divider";
 import List from '@material-ui/core/List';
 import {Link} from "react-router-dom";
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
+import DoneAllIcon from '@material-ui/icons/DoneAll';
 
 const ListItemsAdmin = () => {
     return (
@@ -39,6 +40,12 @@ const ListItemsAdmin = () => {
                         <BarChartIcon/>
                     </ListItemIcon>
                     <ListItemText primary="Statistics"/>
+                </ListItem>
+                <ListItem button component={Link} to="/checkIn">
+                    <ListItemIcon>
+                        <DoneAllIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Check In"/>
                 </ListItem>
             </List>
             <Divider/>

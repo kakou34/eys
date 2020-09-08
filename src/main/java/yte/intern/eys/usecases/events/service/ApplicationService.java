@@ -15,18 +15,10 @@ import yte.intern.eys.usecases.events.entity.FormSubmission;
 import yte.intern.eys.usecases.events.repository.EventRepository;
 import yte.intern.eys.usecases.events.repository.FormAnswerRepository;
 import yte.intern.eys.usecases.events.repository.FormSubmissionRepository;
-
-import javax.activation.DataHandler;
-import javax.imageio.ImageIO;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 import javax.mail.util.ByteArrayDataSource;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Optional;
 
 import static yte.intern.eys.usecases.common.enums.MessageType.ERROR;
@@ -40,6 +32,7 @@ public class ApplicationService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     private final JavaMailSender javaMailSender;
+
 
 
     public MessageResponse addSubmission(String eventName, String username) {
@@ -56,6 +49,8 @@ public class ApplicationService {
                     formSubmission.setCheckIn(false);
                     formSubmission.setAppDate(LocalDate.now());
                     formSubmissionRepository.save(formSubmission);
+                    //sending notifications to admins
+
                 } else
                     return new MessageResponse(String.format("Sorry, the quota is full for this event - %s -", eventName), ERROR);
             } else {
@@ -135,6 +130,9 @@ public class ApplicationService {
         }
 
     }
+
+
+
 
 
 }
