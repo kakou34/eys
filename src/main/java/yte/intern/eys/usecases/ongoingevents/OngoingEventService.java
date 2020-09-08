@@ -3,9 +3,14 @@ package yte.intern.eys.usecases.ongoingevents;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import yte.intern.eys.usecases.common.dto.MessageResponse;
+import yte.intern.eys.usecases.events.dto.EventDTO;
+import yte.intern.eys.usecases.events.entity.Event;
 import yte.intern.eys.usecases.events.entity.FormSubmission;
+import yte.intern.eys.usecases.events.mapper.EventMapper;
+import yte.intern.eys.usecases.events.repository.EventRepository;
 import yte.intern.eys.usecases.events.repository.FormSubmissionRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 import static yte.intern.eys.usecases.common.enums.MessageType.ERROR;
@@ -14,6 +19,9 @@ import static yte.intern.eys.usecases.common.enums.MessageType.SUCCESS;
 @Service
 @RequiredArgsConstructor
 public class OngoingEventService {
+
+    private final EventRepository eventRepository;
+    private final EventMapper eventMapper;
 
     private final FormSubmissionRepository formSubmissionRepository;
     public MessageResponse checkInToEvent(String eventName, String userName) {
@@ -25,4 +33,10 @@ public class OngoingEventService {
             return new MessageResponse(String.format("User %s checked in to %s successfully!", userName, eventName), SUCCESS);
         } else return new MessageResponse(String.format("User %s could not be checked in to %s, please make sure you applied!", userName,eventName), ERROR);
     }
+
+    public List<EventDTO> getOngoingEvents() {
+        return eventMapper.mapToDto(eventRepository.findOngoingEvents());
+    }
+
+
 }

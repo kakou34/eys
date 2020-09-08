@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import yte.intern.eys.usecases.events.dto.EventDTO;
 import yte.intern.eys.usecases.events.dto.EventSubmissionCountDTO;
 import yte.intern.eys.usecases.events.entity.Event;
 import java.time.LocalDate;
@@ -27,4 +28,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Query(value = "select new yte.intern.eys.usecases.events.dto.EventSubmissionCountDTO(event.name , size(event.formSubmissions)) from Event as event order by size(event.formSubmissions) desc ")
     List<EventSubmissionCountDTO> findEventsSubmissionCount(Pageable pageable);
+
+
+    @Query("from Event event where event.startDate <= current_date and event.endDate >= current_date ")
+    List<Event> findOngoingEvents();
 }
