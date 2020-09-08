@@ -5,21 +5,21 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import ListIcon from "@material-ui/icons/List";
-import BarChartIcon from "@material-ui/icons/BarChart";
 import {Divider} from "@material-ui/core";
 import List from '@material-ui/core/List';
 import { Link } from "react-router-dom";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
 
 
 const ListItemsUser = () => {
     return (
         <React.Fragment>
             <List>
-                <ListItem button component={Link} to="/home">
+                <ListItem button component={Link} to="/profile">
                     <ListItemIcon>
-                        <DashboardIcon/>
+                        <AccountBoxIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Dashboard"/>
+                    <ListItemText primary="Profile"/>
                 </ListItem>
                 <ListItem button component={Link} to={"/availableEvents"}>
                     <ListItemIcon>
@@ -27,22 +27,22 @@ const ListItemsUser = () => {
                     </ListItemIcon>
                     <ListItemText primary="Available Events"/>
                 </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <BarChartIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Upcoming Events"/>
-                </ListItem>
+                {/*<ListItem button>*/}
+                {/*    <ListItemIcon>*/}
+                {/*        <BarChartIcon/>*/}
+                {/*    </ListItemIcon>*/}
+                {/*    <ListItemText primary="Upcoming Events"/>*/}
+                {/*</ListItem>*/}
             </List>
             <Divider/>
             <List>
                 <ListSubheader inset>More...</ListSubheader>
-                <ListItem button>
-                    <ListItemIcon>
-                        <ListIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="My Old Events"/>
-                </ListItem>
+                {/*<ListItem button>*/}
+                {/*    <ListItemIcon>*/}
+                {/*        <ListIcon/>*/}
+                {/*    </ListItemIcon>*/}
+                {/*    <ListItemText primary="My Old Events"/>*/}
+                {/*</ListItem>*/}
             </List>
         </React.Fragment>
     );

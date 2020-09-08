@@ -9,6 +9,7 @@ import TouchAppIcon from '@material-ui/icons/TouchApp';
 import RoomIcon from '@material-ui/icons/Room';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import BarChartIcon from '@material-ui/icons/BarChart';
 
 export default function TableContent(props) {
 
@@ -19,6 +20,7 @@ export default function TableContent(props) {
     "location": <RoomIcon/>,
     "applicants": <PeopleAltIcon/>,
     "answers": <AssignmentIcon/>,
+    "statistics": <BarChartIcon/>,
   }
 
   return (
@@ -52,9 +54,8 @@ export default function TableContent(props) {
   }
 
   function createTableCell(column, row) {
-
     let cellValue = row[column.id];
-    if (column.id === "update" || column.id === "delete" || column.id === "apply" || column.id === "applicants" ) {
+    if (column.id === "update" || column.id === "delete" || column.id === "apply" || column.id === "applicants" || column.id === "statistics" ) {
       cellValue = createIcon(column.id, column.onClick, row.name);
     }
     if(column.id === "location") {

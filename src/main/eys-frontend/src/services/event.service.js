@@ -13,6 +13,10 @@ const deleteEvent = eventName => {
 const getEvent = eventName => {
     return axios.get("/events/" + encodeURIComponent(eventName), { headers: authHeader() });
 }
+const getAll = () => {
+    return axios.get("/events/all", { headers: authHeader() });
+}
+
 const updateEvent = (eventName, data) => {
     return axios.put("/events/" + encodeURIComponent(eventName) , data, { headers: authHeader() });
 };
@@ -39,4 +43,5 @@ export default {
     addQuestion,
     getEventQuestion,
     deleteQuestion,
+    getAll,
 };

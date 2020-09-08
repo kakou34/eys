@@ -1,5 +1,6 @@
 package yte.intern.eys.usecases.events.service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yte.intern.eys.usecases.common.dto.MessageResponse;
@@ -20,6 +21,10 @@ import static yte.intern.eys.usecases.common.enums.MessageType.SUCCESS;
 public class EventService {
     private final EventRepository eventRepository;
     private final FormQuestionRepository formQuestionRepository;
+
+    public List<Event> listAllEvents() {
+        return eventRepository.findAll(Sort.by(Sort.Direction.DESC, "startDate"));
+    }
     public List<Event> listNextEvents() {
         LocalDate today = LocalDate.now();
         return eventRepository.findByStartDateAfter(today);

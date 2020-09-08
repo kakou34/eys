@@ -1,9 +1,7 @@
 import React from 'react';
+import {useState, useEffect} from "react";
 import clsx from 'clsx';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -11,9 +9,11 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import {useState, useEffect} from "react";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import AuthService from "./services/auth.service";
+import Drawer from '@material-ui/core/Drawer';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import AppBar from '@material-ui/core/AppBar';
 import Login from "./components/Common/Login";
 import Register from "./components/Common/Register";
 import Home from "./components/Common/Home";
@@ -29,9 +29,9 @@ import UpdateEvent from "./components/Admin/UpdateEvent";
 import ApplicationForm from "./components/User/ApplicationForm";
 import QRCode from "./components/User/QRCode";
 import FormAnswers from "./components/Admin/FormAnswers";
-import './App.css';
 import UsersTable from "./components/Admin/UsersTable";
-
+import Statistics from "./components/Admin/Statistics";
+import './style/App.css';
 
 const drawerWidth = 240;
 
@@ -144,26 +144,26 @@ export default function App() {
                         ><MenuIcon/>
                         </IconButton>
                         )}
-                        <Link to={"/home"} className="navlink">
+                        <Link to={"/home"} className={"navigationBtn"}>
                             HOME
                         </Link>
                     </span>
                         <span style={{ marginLeft: "auto", marginRight: -12 }}>
                             {currentUser ? (
                                 <span>
-                                    <Link to={"/profile"} className="nav-link">
+                                    <Link to={"/profile"} className="navigationBtn">
                                         {currentUser.username}
                                     </Link>
-                                    <a href="/login" className="nav-link" onClick={logOut}>
+                                    <a href="/login" className="navigationBtn" onClick={logOut}>
                                         Logout
                                     </a>
                                 </span>
                             ) : (
                                 <span>
-                                    <Link to={"/login"} className="nav-link">
+                                    <Link to={"/login"} className="navigationBtn">
                                         Login
                                     </Link>
-                                    <Link to={"/register"} className="nav-link">
+                                    <Link to={"/register"} className="navigationBtn">
                                         Sign Up
                                     </Link>
                                 </span>
@@ -208,8 +208,8 @@ export default function App() {
                         <div className="container mt-3">
                             <Switch>
                                 <Route exact path={["/", "/home"]} component={Home}/>
-                                <Route exact path="/login" component={Login}/>
-                                <Route exact path="/register" component={Register}/>
+                                {!currentUser && <Route exact path="/login" component={Login}/>}
+                                {!currentUser && <Route exact path="/register" component={Register}/>}
                                 <Route exact path="/profile" component={Profile}/>
                                 <Route path="/user" component={BoardUser}/>
                                 <Route path="/admin" component={BoardAdmin}/>
@@ -217,12 +217,13 @@ export default function App() {
                                 <Route path="/addAdmin" component={AddAdmin}/>
                                 <Route path="/NextEventsList" component={(routeProps) => <EventsTable {...routeProps} isNext={true} isAdmin = {showAdminBoard } /> } />
                                 <Route path="/OldEventsList" component={() => <EventsTable isNext={false}  isAdmin = {showAdminBoard}/>}/>
-                                <Route path={"/availableEvents"} component={(routeProps) => <EventsTable {...routeProps} isNext={true} isAdmin = {showAdminBoard} /> } />
+                                <Route path="/availableEvents" component={(routeProps) => <EventsTable {...routeProps} isNext={true} isAdmin = {showAdminBoard} /> } />
                                 <Route path="/updateEvent/:eventName" component={UpdateEvent}/>
                                 <Route path="/apply/:eventName" component={ApplicationForm} />
                                 <Route path="/applicants/:eventName" component={(routeProps) => <UsersTable {...routeProps} /> } />
                                 <Route path="/answers/:eventName/:username" component={FormAnswers}/>
                                 <Route path="/qrcode/:eventName" component={QRCode} />
+                                <Route path="/statistics" component={Statistics}/>
                             </Switch>
                         </div>
                     </Typography>

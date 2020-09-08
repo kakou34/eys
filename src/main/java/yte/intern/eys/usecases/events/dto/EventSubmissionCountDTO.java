@@ -5,7 +5,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventSubmissionCountDTO {
-    private String EventName;
-    private Integer SubmissionCount;
-
+    private String eventName;
+    private Integer submissionCount;
 }

@@ -26,8 +26,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import DeleteIcon from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
-import Map from "../map/Map";
-
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -61,8 +59,6 @@ export default function UpdateEvent(props) {
     const [longitude, setLongitude] = React.useState(0.0);
     const [startDate, setStartDate] = React.useState("2020-01-01");
     const [endDate, setEndDate] = React.useState("2020-01-01");
-    //const [location, setLocation] = React.useState( { address: 'Event Address', lat: 0, lng: 0});
-
     const handleNameChange = event => setName(event.target.value);
     const handleQuotaChange = event => setQuota(event.target.value);
     const handleAltitudeChange = event => setAltitude(event.target.value);
@@ -73,7 +69,6 @@ export default function UpdateEvent(props) {
     const questionDialogFields = [
         {id: "question", label: "Question", type: "text"},
     ]
-
     const [rows, updateRows] = React.useState([]);
     const [isAddQuestionModalOpen, updateIsAddQuestionModalOpen] = React.useState(false);
 

@@ -79,24 +79,12 @@ export default function ApplicationForm(props) {
                             )
                         });
 
-                        //sending QR Code to email
-
-                        ApplicationService.sendQRCode(eventName, currentUser.username).then(response => {
-                            console.log(response.data.message);
-                            if(response.data.messageType === "SUCCESS") {
-                                toast.success(response.data.message, toastOptions);
-                                props.history.push("/qrcode/" + eventName);
-                            }
-                            else toast.error(response.data.message, toastOptions);
-                            }
-                        )
-
-
+                        //Show QR code
+                        props.history.push("/qrcode/" + eventName);
                     } else toast.error(response.data.message, toastOptions);
                 }
             )
         }
-
     }
 
 
@@ -166,16 +154,16 @@ export default function ApplicationForm(props) {
                                 />
                             </Grid>
                         ))}
-                        <Grid item xs={12} sm={6} md={4} lg={4}>
+
+                        <Grid item xs={12}  alignContent={"center"}>
                             <Button
-                                fullWidth
                                 variant="contained"
                                 color="primary"
                                 preventDefault
                                 className={classes.submit}
                                 onClick={handleSubmit}
                             >
-                                Save
+                                Apply
                             </Button>
                         </Grid>
                     </Grid>

@@ -27,6 +27,12 @@ public class EventController {
     private final EventMapper eventMapper;
     private final FormQuestionMapper formQuestionMapper;
 
+    @GetMapping("/all")
+    public List<EventDTO> listAllEvents() {
+        List<Event> events = eventService.listAllEvents();
+        return eventMapper.mapToDto(events);
+    }
+
     @GetMapping("/next")
     public List<EventDTO> listNextEvents() {
         List<Event> events = eventService.listNextEvents();

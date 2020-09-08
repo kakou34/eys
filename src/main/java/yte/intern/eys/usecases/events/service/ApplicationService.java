@@ -129,9 +129,9 @@ public class ApplicationService {
             helper.addAttachment(MimeUtility.encodeText(""), dataSource);
             helper.setText("");
             javaMailSender.send(msg);
-            return new MessageResponse("Email sent successfully", SUCCESS);
+            return new MessageResponse("E-mail sent successfully", SUCCESS);
         } catch (Exception e) {
-            return new MessageResponse(e.getMessage(), ERROR);
+            return new MessageResponse("Your e-mail could not be sent!", ERROR);
         }
 
     }
