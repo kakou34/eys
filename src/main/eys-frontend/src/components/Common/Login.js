@@ -5,6 +5,7 @@ import CheckButton from "react-validation/build/button";
 import AuthService from "../../services/auth.service";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const required = (value) => {
     if (!value) {
@@ -68,9 +69,9 @@ const Login = (props) => {
 
     return (
         <Container component="main" maxWidth="sm" >
-            <CssBaseline/>
+
             <div className="col-md-12">
-                <div className="card card-container">
+                <div className="card card-container ">
                     <Form onSubmit={handleLogin} ref={form}>
                         <div className="form-group">
                             <label htmlFor="username">Username</label>

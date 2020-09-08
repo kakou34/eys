@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style/App.css";
-
 import AuthService from "./services/auth.service";
-
 import Login from "./components/Common/Login";
 import Register from "./components/Common/Register";
 import Home from "./components/Common/Home";
 import Profile from "./components/Common/Profile";
 import BoardUser from "./components/User/BoardUser";
 import BoardAdmin from "./components/Admin/BoardAdmin";
+import {Container} from "@material-ui/core";
 
 const App = () => {
   const [showAdminBoard, setShowAdminBoard] = useState(false);
@@ -31,11 +30,8 @@ const App = () => {
 
   return (
       <Router>
-        <div>
-          <nav className="navbar navbar-expand navbar-dark bg-dark">
-            <Link to={"/"} className="navbar-brand">
-              Welcome
-            </Link>
+        <Container component={"main"} >
+          <nav>
             <div className="navbar-nav mr-auto">
               <li className="nav-item">
                 <Link to={"/home"} className="nav-link">
@@ -43,21 +39,6 @@ const App = () => {
                 </Link>
               </li>
 
-              {showAdminBoard && (
-                  <li className="nav-item">
-                    <Link to={"/admin"} className="nav-link">
-                      Admin Board
-                    </Link>
-                  </li>
-              )}
-
-              {currentUser && (
-                  <li className="nav-item">
-                    <Link to={"/user"} className="nav-link">
-                      User
-                    </Link>
-                  </li>
-              )}
             </div>
 
             {currentUser ? (
@@ -89,8 +70,7 @@ const App = () => {
                 </div>
             )}
           </nav>
-
-          <div className="container mt-3">
+          <div>
             <Switch>
               <Route exact path={["/", "/home"]} component={Home} />
               <Route exact path="/login" component={Login} />
@@ -100,8 +80,9 @@ const App = () => {
               <Route path="/admin" component={BoardAdmin} />
             </Switch>
           </div>
-        </div>
+        </Container>
       </Router>
+
   );
 };
 
