@@ -38,5 +38,14 @@ public class OngoingEventService {
         return eventMapper.mapToDto(eventRepository.findOngoingEvents());
     }
 
+    public Boolean isUserCheckedIn(String username, String eventName) {
+        Optional<FormSubmission> formSubmissionOptional = formSubmissionRepository.findByUserAndEvent(username, eventName);
+        if (formSubmissionOptional.isPresent()) {
+            FormSubmission formSubmission = formSubmissionOptional.get();
+            return formSubmission.getCheckIn();
+        }
+        return false;
+    }
+
 
 }

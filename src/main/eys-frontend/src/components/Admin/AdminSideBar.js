@@ -47,6 +47,12 @@ const ListItemsAdmin = () => {
                     </ListItemIcon>
                     <ListItemText primary="Check In"/>
                 </ListItem>
+                <ListItem button component={Link} to="/ongoingEvents">
+                    <ListItemIcon>
+                        <DoneAllIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Ongoing Events"/>
+                </ListItem>
             </List>
             <Divider/>
             <List>

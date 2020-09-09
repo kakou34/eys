@@ -32,6 +32,7 @@ import FormAnswers from "./components/Admin/FormAnswers";
 import UsersTable from "./components/Admin/UsersTable";
 import Statistics from "./components/Admin/Statistics";
 import CheckIn from "./components/Admin/CheckIn";
+import OngoingEventsTable from "./components/Common/OngoingEventsTable";
 import './style/App.css';
 
 const drawerWidth = 240;
@@ -103,7 +104,6 @@ export default function App() {
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
-
         if (user) {
             setCurrentUser(user);
             setShowAdminBoard(user.authorities.includes("ROLE_ADMIN"));
@@ -226,6 +226,7 @@ export default function App() {
                                 <Route path="/qrcode/:eventName" component={QRCode} />
                                 <Route path="/statistics" component={Statistics}/>
                                 <Route path="/checkIn" component={CheckIn}/>
+                                <Route path="/ongoingEvents" component={() => <OngoingEventsTable isAdmin = {showAdminBoard}/>}/>
                             </Switch>
                         </div>
                     </Typography>

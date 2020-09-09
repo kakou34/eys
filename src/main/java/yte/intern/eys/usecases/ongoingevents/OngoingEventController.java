@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import yte.intern.eys.usecases.common.dto.MessageResponse;
 import yte.intern.eys.usecases.events.dto.EventDTO;
-import yte.intern.eys.usecases.events.entity.Event;
+
 
 import java.util.List;
 
@@ -26,9 +26,17 @@ public class OngoingEventController {
     public List<EventDTO> getOngoingEvents() {
         return ongoingEventService.getOngoingEvents();
     }
+
+    @GetMapping("/checkUserCheckin/{username}/{eventName}")
+    public Boolean isUserCheckedIn(@PathVariable(value = "eventName") String eventName, @PathVariable(value = "username") String username) {
+        return ongoingEventService.isUserCheckedIn(username , eventName);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/checkIn/{eventName}/{userName}")
     public MessageResponse checkInToEvent(@PathVariable(value = "eventName") String eventName, @PathVariable(value = "userName") String userName) {
         return ongoingEventService.checkInToEvent(eventName, userName);
     }
+
+
 }

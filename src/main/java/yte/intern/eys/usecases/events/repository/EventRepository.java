@@ -32,4 +32,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     @Query("from Event event where event.startDate <= current_date and event.endDate >= current_date ")
     List<Event> findOngoingEvents();
+
+
 }

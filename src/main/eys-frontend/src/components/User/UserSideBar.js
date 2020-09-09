@@ -9,6 +9,7 @@ import {Divider} from "@material-ui/core";
 import List from '@material-ui/core/List';
 import { Link } from "react-router-dom";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
 
 
 const ListItemsUser = () => {
@@ -26,6 +27,12 @@ const ListItemsUser = () => {
                         <ListIcon/>
                     </ListItemIcon>
                     <ListItemText primary="Available Events"/>
+                </ListItem>
+                <ListItem button component={Link} to="/ongoingEvents">
+                    <ListItemIcon>
+                        <DoneAllIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="my ongoing Events"/>
                 </ListItem>
                 {/*<ListItem button>*/}
                 {/*    <ListItemIcon>*/}
