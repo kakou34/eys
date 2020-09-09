@@ -6,15 +6,16 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from "../Common/Copyright";
-import EventService from "../../services/event.service"
-import { useParams } from "react-router-dom";
-import {toast, ToastContainer} from 'react-toastify';
+import EventService from "../../services/event.service";
+import {useParams} from "react-router-dom";
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AuthService from "../../services/auth.service";
 import ApplicationService from "../../services/application.service";
+import SocketService from "../../services/socket.service";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -59,10 +60,15 @@ export default function ApplicationForm(props) {
         rows[index].answer = event.target.value;
         updateRows(rows);
     }
+    const notify = () => {
+        //sending notification to admins
+        const message = "User " + currentUser.firstname + " " + currentUser.lastname + " applied for " + eventName
+        SocketService.sendApplicationNotification(message);
+    }
 
     const handleSubmit = () => {
         const emptyAnswers = rows.filter(row => row.answer === '');
-        if(emptyAnswers.length>0) {
+        if (emptyAnswers.length > 0) {
             toast.error("Please answer all questions and submit again", toastOptions);
         } else {
             //Submit application
@@ -78,6 +84,8 @@ export default function ApplicationForm(props) {
                                 }
                             )
                         });
+                        //notify admin
+                        notify();
 
                         //Show QR code
                         props.history.push("/qrcode/" + eventName);
@@ -98,9 +106,9 @@ export default function ApplicationForm(props) {
     }, [])
 
     return (
+
         <Container component="main" maxWidth="lg">
-            <CssBaseline />
-            <ToastContainer/>
+            <CssBaseline/>
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">
                     Apply for Event: {eventName}
@@ -129,7 +137,7 @@ export default function ApplicationForm(props) {
                                 disabled
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6} >
+                        <Grid item xs={12} sm={6}>
                             <TextField
                                 name="turkishID"
                                 variant="outlined"
@@ -142,20 +150,20 @@ export default function ApplicationForm(props) {
                         </Grid>
                         <Divider/>
                         {rows.map((row) => (
-                            <Grid item xs={12} >
+                            <Grid item xs={12}>
                                 <TextField
                                     required
                                     name={row.question}
                                     variant="outlined"
                                     fullWidth
-                                    onChange={(e)=>handleAnswerChange(e, rows.indexOf(row))}
+                                    onChange={(e) => handleAnswerChange(e, rows.indexOf(row))}
                                     id={row.question}
                                     label={row.question}
                                 />
                             </Grid>
                         ))}
 
-                        <Grid item xs={12}  alignContent={"center"}>
+                        <Grid item xs={12} alignContent={"center"}>
                             <Button
                                 variant="contained"
                                 color="primary"
@@ -165,12 +173,13 @@ export default function ApplicationForm(props) {
                             >
                                 Apply
                             </Button>
+
                         </Grid>
                     </Grid>
                 </form>
             </div>
             <Box mt={5}>
-                <Copyright />
+                <Copyright/>
             </Box>
         </Container>
     );

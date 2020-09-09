@@ -1,6 +1,8 @@
 package yte.intern.eys.usecases.events.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import yte.intern.eys.usecases.common.dto.MessageResponse;
@@ -49,6 +51,12 @@ public class ApplicationController {
     @GetMapping(value = "/{eventName}/{userName}/sendEmail")
     public MessageResponse sendEmail(@PathVariable("eventName") String eventName, @PathVariable("userName") String username) {
         return applicationService.sendQrCodeViaEmail(eventName, username);
+    }
+
+    @MessageMapping("/notification")
+    @SendTo("/topic/newApplication")
+    public String newApplication(String notificationContent) throws Exception {
+        return notificationContent;
     }
 
 }

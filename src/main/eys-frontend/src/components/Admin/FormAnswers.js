@@ -16,11 +16,7 @@ const FormAnswers = () => {
     }, [])
     return (
         <div className="container">
-            <header className="jumbotron">
-                <h3>
-                    <strong></strong>
-                </h3>
-            </header>
+
             { rows.length !== 0 ?
                 rows.map(row => (
                         <p>

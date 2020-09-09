@@ -1,4 +1,4 @@
-package yte.intern.eys.usecases.ongoingevents;
+package yte.intern.eys.usecases.ongoingevents.controller;
 
 
 import lombok.RequiredArgsConstructor;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import yte.intern.eys.usecases.common.dto.MessageResponse;
 import yte.intern.eys.usecases.events.dto.EventDTO;
+import yte.intern.eys.usecases.ongoingevents.service.OngoingEventService;
 
 
 import java.util.List;

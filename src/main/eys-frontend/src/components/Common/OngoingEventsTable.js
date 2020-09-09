@@ -5,6 +5,7 @@ import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
 import authHeader from "../../services/auth-header";
 import AuthService from "../../services/auth.service";
+import SocketService from "../../services/socket.service";
 
 export default function OngoingEventsTable(props) {
     const [rows, updateRows] = useState([]);
@@ -37,6 +38,7 @@ export default function OngoingEventsTable(props) {
             isAllowed = response.data;
             if (isAllowed) {
                 toast.success("You are allowed", toastOptions);
+                SocketService.sendMessage();
             } else toast.error("You did not check in for this event.", toastOptions);
         });
 
@@ -61,7 +63,7 @@ export default function OngoingEventsTable(props) {
             {(rows.length > 0) ? (<PaginationTable rows={rows} columns={eventsTableColumns}/>) : (
                 <h3>There are no ongoing Events currently...</h3>
             )}
-            <ToastContainer/>
+
         </div>
     );
 

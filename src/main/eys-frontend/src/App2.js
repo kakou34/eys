@@ -10,7 +10,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {toast, ToastContainer} from 'react-toastify';
 import AuthService from "./services/auth.service";
+import SocketService from "./services/socket.service";
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -34,8 +36,19 @@ import Statistics from "./components/Admin/Statistics";
 import CheckIn from "./components/Admin/CheckIn";
 import OngoingEventsTable from "./components/Common/OngoingEventsTable";
 import './style/App.css';
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
 
 const drawerWidth = 240;
+const toastOptions = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: false,
+    progress: undefined,
+};
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -107,6 +120,18 @@ export default function App() {
         if (user) {
             setCurrentUser(user);
             setShowAdminBoard(user.authorities.includes("ROLE_ADMIN"));
+            if(user.authorities.includes("ROLE_ADMIN")) {
+                let socket = new SockJS('/eys');
+                let stompClient = Stomp.over(socket);
+                stompClient.connect({}, function (frame) {
+                    console.log('Connected: ' + frame);
+                    stompClient.subscribe('/topic/newApplication', function (notification) {
+                        toast.info( notification.body , toastOptions);
+                    });
+                });
+            } else {
+                SocketService.connectUser();
+            }
         }
     }, []);
 
@@ -120,13 +145,16 @@ export default function App() {
 
     const logOut = () => {
         AuthService.logout();
+        SocketService.disconnect();
     };
+
 
 
     return (
         <Router>
             <div className={classes.root}>
                 <CssBaseline/>
+                <ToastContainer/>
                 <AppBar
                     position="fixed"
                     className={clsx(classes.appBar, {
@@ -220,7 +248,7 @@ export default function App() {
                                 <Route path="/OldEventsList" component={() => <EventsTable isNext={false}  isAdmin = {showAdminBoard}/>}/>
                                 <Route path="/availableEvents" component={(routeProps) => <EventsTable {...routeProps} isNext={true} isAdmin = {showAdminBoard} /> } />
                                 <Route path="/updateEvent/:eventName" component={UpdateEvent}/>
-                                <Route path="/apply/:eventName" component={ApplicationForm} />
+                                <Route path="/apply/:eventName" component={(routeProps) => <ApplicationForm {...routeProps} /> } />
                                 <Route path="/applicants/:eventName" component={(routeProps) => <UsersTable {...routeProps} /> } />
                                 <Route path="/answers/:eventName/:username" component={FormAnswers}/>
                                 <Route path="/qrcode/:eventName" component={QRCode} />

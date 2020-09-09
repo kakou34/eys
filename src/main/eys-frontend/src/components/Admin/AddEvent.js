@@ -205,7 +205,6 @@ export default function AddEvent() {
                         Save
                     </Button>
                 </form>
-                <ToastContainer/>
 
             </div>
             <Box mt={5}>

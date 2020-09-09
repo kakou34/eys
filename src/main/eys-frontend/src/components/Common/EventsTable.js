@@ -85,7 +85,6 @@ export default function EventsTable(props) {
     return (
         <div className="App">
             <PaginationTable rows={rows} columns={eventsTableColumns}/>
-            <ToastContainer/>
         </div>
     );
 

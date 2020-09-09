@@ -150,7 +150,7 @@ export default function UpdateEvent(props) {
     return (
         <Container component="main" maxWidth="lg">
             <CssBaseline />
-            <ToastContainer/>
+
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">
                     Update Event

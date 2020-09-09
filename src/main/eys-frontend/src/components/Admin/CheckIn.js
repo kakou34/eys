@@ -115,7 +115,6 @@ export default function AddEvent() {
                         Check In
                     </Button>
                 </form>
-                <ToastContainer/>
 
             </div>
             <Box mt={5}>

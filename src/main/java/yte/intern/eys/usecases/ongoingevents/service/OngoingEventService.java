@@ -1,10 +1,9 @@
-package yte.intern.eys.usecases.ongoingevents;
+package yte.intern.eys.usecases.ongoingevents.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import yte.intern.eys.usecases.common.dto.MessageResponse;
 import yte.intern.eys.usecases.events.dto.EventDTO;
-import yte.intern.eys.usecases.events.entity.Event;
 import yte.intern.eys.usecases.events.entity.FormSubmission;
 import yte.intern.eys.usecases.events.mapper.EventMapper;
 import yte.intern.eys.usecases.events.repository.EventRepository;
