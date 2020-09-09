@@ -31,7 +31,7 @@ export default function ReactDialog(props) {
                     Cancel
                 </Button>
                 <Button onClick={() => {
-                    props.onSubmit(inputData)
+                    props.onSubmit(inputData);
                 }} color="primary">
                     Submit
                 </Button>

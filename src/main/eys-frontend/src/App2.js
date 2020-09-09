@@ -124,8 +124,8 @@ export default function App() {
                 let socket = new SockJS('/eys');
                 let stompClient = Stomp.over(socket);
                 stompClient.connect({}, function (frame) {
-                    console.log('Connected: ' + frame);
-                    stompClient.subscribe('/topic/newApplication', function (notification) {
+                    stompClient.subscribe('/topic/newNotification', function (notification) {
+                        console.log(notification.body);
                         toast.info( notification.body , toastOptions);
                     });
                 });

@@ -51,6 +51,7 @@ public class UserService {
                 signUpRequest.getTurkishID(),
                 new HashSet<>(),
                 new HashSet<>(),
+                new HashSet<>(),
                 new HashSet<>());
         //Set<String> strAuthorities = signUpRequest.getAuthority();
         Set<Authority> authorities = new HashSet<>();

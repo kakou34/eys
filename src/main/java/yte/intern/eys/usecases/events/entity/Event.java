@@ -3,6 +3,8 @@ package yte.intern.eys.usecases.events.entity;
 import lombok.Getter;
 import lombok.Setter;
 import yte.intern.eys.usecases.common.entity.BaseEntity;
+import yte.intern.eys.usecases.ongoingevents.entity.InstantMessage;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -37,6 +39,9 @@ public class Event extends BaseEntity {
 
     @OneToMany(mappedBy="event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<FormSubmission> formSubmissions;
+
+    @OneToMany(mappedBy="event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<InstantMessage> instantMessages;
 
     public boolean hasFormQuestion(String question) {
         return formQuestions.stream().anyMatch(it -> it.getQuestion().equals(question));

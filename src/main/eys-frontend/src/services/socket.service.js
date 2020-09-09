@@ -46,6 +46,7 @@ function sendMessage() {
 }
 
 function sendApplicationNotification (message) {
+    console.log("sending notif");
     stompClient.send("/app/notification", {}, message);
 }
 

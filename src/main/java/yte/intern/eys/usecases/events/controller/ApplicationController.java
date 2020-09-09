@@ -53,10 +53,5 @@ public class ApplicationController {
         return applicationService.sendQrCodeViaEmail(eventName, username);
     }
 
-    @MessageMapping("/notification")
-    @SendTo("/topic/newApplication")
-    public String newApplication(String notificationContent) throws Exception {
-        return notificationContent;
-    }
 
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import yte.intern.eys.usecases.events.entity.FormAnswer;
 import yte.intern.eys.usecases.events.entity.FormSubmission;
+import yte.intern.eys.usecases.ongoingevents.entity.InstantMessage;
 import yte.intern.eys.validation.TcKimlikNo;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -59,6 +60,9 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<FormSubmission> formSubmissions;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    private Set<InstantMessage> instantMessages;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<FormAnswer> formAnswers;
