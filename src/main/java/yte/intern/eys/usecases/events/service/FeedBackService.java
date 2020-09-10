@@ -62,9 +62,12 @@ public class FeedBackService {
     public UserDTO getWinner(String eventName) {
         List<Long> attendees = formSubmissionRepository.findAttendeesByEvent(eventName);
         Random rand = new Random();
-        Long winnerId = attendees.get(rand.nextInt(attendees.size()));
-        Optional<User> winnerOptional = userRepository.findById(winnerId);
-        return winnerOptional.map(userMapper::mapToDto).orElse(null);
+        if(attendees.size()>0) {
+            Long winnerId = attendees.get(rand.nextInt(attendees.size()));
+            Optional<User> winnerOptional = userRepository.findById(winnerId);
+            return winnerOptional.map(userMapper::mapToDto).orElse(null);
+        }
+        else return null;
     }
 
 }

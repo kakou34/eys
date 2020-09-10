@@ -8,8 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from "../Common/Copyright";
-import OngoingService from "../../services/ongoing.service";
+import FeedbackService from "../../services/feedback.service";
 import {toast, ToastContainer} from 'react-toastify';
+import trim from "validator/es/lib/trim";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -31,11 +32,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function CheckIn() {
+export default function Giveaway() {
     const classes = useStyles();
     const toastOptions = {
-        position: "top-right",
-        autoClose: 5000,
+        position: "top-center",
+        autoClose: 1000000,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: false,
@@ -43,21 +44,16 @@ export default function CheckIn() {
         progress: undefined,
     };
 
-    const [username, setUsername] = React.useState("");
     const [eventname, setEventname] = React.useState("");
-
-    const handleUsernameChange = event => setUsername(event.target.value);
     const handleEventnameChange = event => setEventname(event.target.value);
 
     const handleSubmit = () => {
-        OngoingService.checkInUser(eventname, username).then(response => {
-            if (response.data.messageType === "SUCCESS") {
+        FeedbackService.getWinner(trim(eventname)).then(response => {
+            if (response.data !== "") {
                 setEventname("");
-                setUsername("");
-                toast.success(response.data.message, toastOptions);
-            } else {
-                toast.error(response.data.message, toastOptions);
-            }
+                let message = "The winner is " + response.data.firstname + " " + response.data.lastname + "! Congratulations!!";
+                toast.success(message, toastOptions);
+            } else toast.error("Users or Event Not found, please make sure the event had attendees and try again!", toastOptions);
         });
     };
 
@@ -66,7 +62,7 @@ export default function CheckIn() {
             <CssBaseline />
             <div className={classes.paper}>
                 <Typography component="h1" variant="h5">
-                    Check In
+                    Generate a winner
                 </Typography>
                 <form className={classes.form} >
                     <Grid container spacing={2}>
@@ -86,25 +82,10 @@ export default function CheckIn() {
                             />
 
                         </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                error={username === ""}
-                                name="username"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="username"
-                                label="Username"
-                                value={username}
-                                autoFocus
-                                onChange={handleUsernameChange}
-                                helperText={username === "" && "Username is required"}
-                            />
 
-                        </Grid>
                     </Grid>
                     <Button
-                        disabled={( username === "" || eventname === "")}
+                        disabled={eventname === ""}
                         fullWidth
                         variant="contained"
                         color="primary"
@@ -112,7 +93,7 @@ export default function CheckIn() {
                         className={classes.submit}
                         onClick={handleSubmit}
                     >
-                        Check In
+                        Get Winner
                     </Button>
                 </form>
 

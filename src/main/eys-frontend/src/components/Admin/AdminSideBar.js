@@ -37,12 +37,6 @@ const ListItemsAdmin = () => {
                     </ListItemIcon>
                     <ListItemText primary="Upcoming Events"/>
                 </ListItem>
-                <ListItem button component={Link} to="/statistics">
-                    <ListItemIcon>
-                        <BarChartIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Statistics"/>
-                </ListItem>
                 <ListItem button component={Link} to="/ongoingEvents">
                     <ListItemIcon>
                         <QueryBuilderIcon/>
@@ -65,6 +59,12 @@ const ListItemsAdmin = () => {
             <Divider/>
             <List>
                 <ListSubheader inset>More...</ListSubheader>
+                <ListItem button component={Link} to="/statistics">
+                    <ListItemIcon>
+                        <BarChartIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Statistics"/>
+                </ListItem>
                 <ListItem button component={Link} to={"/OldEventsList"}>
                     <ListItemIcon>
                         <ListIcon/>

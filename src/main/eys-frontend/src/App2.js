@@ -34,6 +34,7 @@ import FormAnswers from "./components/Admin/FormAnswers";
 import UsersTable from "./components/Admin/UsersTable";
 import Statistics from "./components/Admin/Statistics";
 import CheckIn from "./components/Admin/CheckIn";
+import Giveaway from "./components/Admin/Giveaway";
 import OngoingEventsTable from "./components/Common/OngoingEventsTable";
 import InstantQuestions from "./components/Admin/InstantQuestions";
 import './style/App.css';
@@ -257,6 +258,7 @@ export default function App() {
                                 <Route path="/qrcode/:eventName" component={QRCode} />
                                 <Route path="/statistics" component={Statistics}/>
                                 <Route path="/checkIn" component={CheckIn}/>
+                                <Route path="/giveaway" component={Giveaway}/>
                                 <Route path="/instantQuestions" component={InstantQuestions}/>
                                 <Route path="/ongoingEvents" component={() => <OngoingEventsTable isAdmin = {showAdminBoard}/>}/>
                             </Switch>
