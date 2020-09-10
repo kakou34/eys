@@ -44,12 +44,12 @@ const ListItemsUser = () => {
             <Divider/>
             <List>
                 <ListSubheader inset>More...</ListSubheader>
-                {/*<ListItem button>*/}
-                {/*    <ListItemIcon>*/}
-                {/*        <ListIcon/>*/}
-                {/*    </ListItemIcon>*/}
-                {/*    <ListItemText primary="My Old Events"/>*/}
-                {/*</ListItem>*/}
+                <ListItem button component={Link} to="/userOldEvents" >
+                    <ListItemIcon>
+                        <ListIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="My Old Events"/>
+                </ListItem>
             </List>
         </React.Fragment>
     );

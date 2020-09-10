@@ -88,7 +88,7 @@ export default function ApplicationForm(props) {
                         notify();
 
                         //Show QR code
-                        props.history.push("/qrcode/" + eventName);
+                        props.history.push("/image/" + eventName + "/qrCode");
                     } else toast.error(response.data.message, toastOptions);
                 }
             )

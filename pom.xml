@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>tubitak.yte</groupId>
-    <artifactId>security-demo</artifactId>
+    <artifactId>eys</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>security-demo</name>
-    <description>Demo project for Spring Security</description>
+    <description>YTE Summer Internship Project</description>
 
     <properties>
         <java.version>14</java.version>
@@ -161,6 +161,19 @@
             <artifactId>stomp-websocket</artifactId>
             <version>2.3.3</version>
         </dependency>
+        <dependency>
+            <!-- jsoup HTML parser library @ https://jsoup.org/ -->
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.13.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.xuwei-k</groupId>
+            <artifactId>html2image</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+
     </dependencies>
 
     <pluginRepositories>
@@ -187,6 +200,7 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+
     </repositories>
 
     <build>

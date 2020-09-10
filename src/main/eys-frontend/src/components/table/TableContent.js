@@ -11,6 +11,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import ChatIcon from '@material-ui/icons/Chat';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 export default function TableContent(props) {
 
@@ -23,6 +24,7 @@ export default function TableContent(props) {
     "answers": <AssignmentIcon/>,
     "statistics": <BarChartIcon/>,
     "message": <ChatIcon/>,
+    "certificate": <AssignmentTurnedInIcon/>
   }
 
   return (
@@ -57,7 +59,7 @@ export default function TableContent(props) {
 
   function createTableCell(column, row) {
     let cellValue = row[column.id];
-    if (column.id === "update" || column.id === "delete" || column.id === "apply" || column.id === "applicants" || column.id === "statistics" || column.id === "message") {
+    if (column.id === "update" || column.id === "delete" || column.id === "apply" || column.id === "applicants" || column.id === "statistics" || column.id === "message" || column.id === 'certificate') {
       cellValue = createIcon(column.id, column.onClick, row.name);
     }
     if(column.id === "location") {

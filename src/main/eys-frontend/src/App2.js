@@ -29,7 +29,7 @@ import AddAdmin from "./components/Admin/AddAdmin";
 import EventsTable from "./components/Common/EventsTable";
 import UpdateEvent from "./components/Admin/UpdateEvent";
 import ApplicationForm from "./components/User/ApplicationForm";
-import QRCode from "./components/User/QRCode";
+import ImageViewerSender from "./components/User/ImageViewerSender";
 import FormAnswers from "./components/Admin/FormAnswers";
 import UsersTable from "./components/Admin/UsersTable";
 import Statistics from "./components/Admin/Statistics";
@@ -37,6 +37,7 @@ import CheckIn from "./components/Admin/CheckIn";
 import Giveaway from "./components/Admin/Giveaway";
 import OngoingEventsTable from "./components/Common/OngoingEventsTable";
 import InstantQuestions from "./components/Admin/InstantQuestions";
+import OldEvents from "./components/User/OldEvents";
 import './style/App.css';
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
@@ -205,7 +206,7 @@ export default function App() {
                     </Toolbar>
                 </AppBar>
 
-                {currentUser && (
+                {/*{ currentUser && (*/}
                 <Drawer
                     className={classes.drawer}
                     variant="persistent"
@@ -230,12 +231,8 @@ export default function App() {
 
 
                 </Drawer>
-                )}
-                <main
-                    className={clsx(classes.content, {
-                        [classes.contentShift]: open,
-                    })}
-                >
+                {/*)}*/}
+                <main className={clsx(classes.content, {[classes.contentShift]: open,})} >
                     <div className={classes.drawerHeader}/>
                     <Typography align={"center"}>
                         <div className="container mt-3">
@@ -255,11 +252,12 @@ export default function App() {
                                 <Route path="/apply/:eventName" component={(routeProps) => <ApplicationForm {...routeProps} /> } />
                                 <Route path="/applicants/:eventName" component={(routeProps) => <UsersTable {...routeProps} /> } />
                                 <Route path="/answers/:eventName/:username" component={FormAnswers}/>
-                                <Route path="/qrcode/:eventName" component={QRCode} />
+                                <Route path="/image/:eventName/:imgType" component={ImageViewerSender} />
                                 <Route path="/statistics" component={Statistics}/>
                                 <Route path="/checkIn" component={CheckIn}/>
                                 <Route path="/giveaway" component={Giveaway}/>
                                 <Route path="/instantQuestions" component={InstantQuestions}/>
+                                <Route path="/userOldEvents" component={OldEvents}/>
                                 <Route path="/ongoingEvents" component={() => <OngoingEventsTable isAdmin = {showAdminBoard}/>}/>
                             </Switch>
                         </div>
