@@ -3,6 +3,7 @@ package yte.intern.eys.authentication.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import yte.intern.eys.usecases.afterevent.entity.SurveyAnswer;
 import yte.intern.eys.usecases.events.entity.FormAnswer;
 import yte.intern.eys.usecases.events.entity.FormSubmission;
 import yte.intern.eys.usecases.ongoingevents.entity.InstantMessage;
@@ -66,5 +67,8 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<FormAnswer> formAnswers;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    private Set<SurveyAnswer> surveyAnswers;
 
 }

@@ -2,6 +2,7 @@ package yte.intern.eys.usecases.events.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import yte.intern.eys.usecases.afterevent.entity.SurveyQuestion;
 import yte.intern.eys.usecases.common.entity.BaseEntity;
 import yte.intern.eys.usecases.ongoingevents.entity.InstantMessage;
 
@@ -38,17 +39,28 @@ public class Event extends BaseEntity {
     private Set<FormQuestion> formQuestions;
 
     @OneToMany(mappedBy="event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<SurveyQuestion> surveyQuestions;
+
+    @OneToMany(mappedBy="event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<FormSubmission> formSubmissions;
 
     @OneToMany(mappedBy="event", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<InstantMessage> instantMessages;
 
     public boolean hasFormQuestion(String question) {
-        return formQuestions.stream().anyMatch(it -> it.getQuestion().equals(question));
+        return formQuestions.stream().anyMatch(it -> it.getQuestion().equalsIgnoreCase(question));
     }
 
-    public Optional<FormQuestion> getQuestion(String question) {
-        return formQuestions.stream().filter(it -> it.getQuestion().equals(question)).findFirst();
+    public boolean hasSurveyQuestion(String question) {
+        return surveyQuestions.stream().anyMatch(it -> it.getQuestion().equalsIgnoreCase(question));
+    }
+
+    public Optional<FormQuestion> getFormQuestion(String question) {
+        return formQuestions.stream().filter(it -> it.getQuestion().equalsIgnoreCase(question)).findFirst();
+    }
+
+    public Optional<SurveyQuestion> getSurveyQuestion(String question) {
+        return surveyQuestions.stream().filter(it -> it.getQuestion().equalsIgnoreCase(question)).findFirst();
     }
 
 

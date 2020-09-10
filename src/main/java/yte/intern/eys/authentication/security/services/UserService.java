@@ -52,6 +52,7 @@ public class UserService {
                 new HashSet<>(),
                 new HashSet<>(),
                 new HashSet<>(),
+                new HashSet<>(),
                 new HashSet<>());
         //Set<String> strAuthorities = signUpRequest.getAuthority();
         Set<Authority> authorities = new HashSet<>();

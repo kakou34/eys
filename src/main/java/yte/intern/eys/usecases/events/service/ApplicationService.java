@@ -69,7 +69,7 @@ public class ApplicationService {
             Event event = eventOptional.get();
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
-                Optional<FormQuestion> formQuestionOptional = event.getQuestion(question);
+                Optional<FormQuestion> formQuestionOptional = event.getFormQuestion(question);
                 if (formQuestionOptional.isPresent()) {
                     FormQuestion formQuestion = formQuestionOptional.get();
                     formAnswer.setFormQuestion(formQuestion);
