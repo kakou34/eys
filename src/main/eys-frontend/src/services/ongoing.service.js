@@ -8,11 +8,17 @@ const checkInUser = (eventname, username) => {
 };
 
 const addQuestion = (eventName, username, data) => {
-    console.log(data);
-    return axios.post("/ask/"+ encodeURIComponent(eventName) + "/" + encodeURIComponent(username), data, { headers: authHeader() });
+    let message = {question: data.question, username: username, eventName: eventName};
+    console.log(message);
+    return axios.post("/ask", message, { headers: authHeader() });
 };
+
+const getQuestions = (eventName) => {
+    return axios.get("/ask/questions/" + encodeURIComponent(eventName), {headers: authHeader()});
+}
 
 export default {
     checkInUser,
     addQuestion,
+    getQuestions
 }

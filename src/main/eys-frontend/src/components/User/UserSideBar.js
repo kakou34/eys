@@ -3,13 +3,13 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListSubheader from "@material-ui/core/ListSubheader";
-import DashboardIcon from "@material-ui/icons/Dashboard";
 import ListIcon from "@material-ui/icons/List";
 import {Divider} from "@material-ui/core";
 import List from '@material-ui/core/List';
 import { Link } from "react-router-dom";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
+import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 
 
 const ListItemsUser = () => {
@@ -30,9 +30,9 @@ const ListItemsUser = () => {
                 </ListItem>
                 <ListItem button component={Link} to="/ongoingEvents">
                     <ListItemIcon>
-                        <DoneAllIcon/>
+                        <QueryBuilderIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="my ongoing Events"/>
+                    <ListItemText primary="Ongoing Events"/>
                 </ListItem>
                 {/*<ListItem button>*/}
                 {/*    <ListItemIcon>*/}

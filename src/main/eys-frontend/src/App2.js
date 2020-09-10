@@ -35,6 +35,7 @@ import UsersTable from "./components/Admin/UsersTable";
 import Statistics from "./components/Admin/Statistics";
 import CheckIn from "./components/Admin/CheckIn";
 import OngoingEventsTable from "./components/Common/OngoingEventsTable";
+import InstantQuestions from "./components/Admin/InstantQuestions";
 import './style/App.css';
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
@@ -125,8 +126,10 @@ export default function App() {
                 let stompClient = Stomp.over(socket);
                 stompClient.connect({}, function (frame) {
                     stompClient.subscribe('/topic/newNotification', function (notification) {
-                        console.log(notification.body);
                         toast.info( notification.body , toastOptions);
+                    });
+                    stompClient.subscribe('/topic/newMessage', function (message) {
+                        toast.info( "Event " + message.body + " has a new message" , toastOptions);
                     });
                 });
             } else {
@@ -254,6 +257,7 @@ export default function App() {
                                 <Route path="/qrcode/:eventName" component={QRCode} />
                                 <Route path="/statistics" component={Statistics}/>
                                 <Route path="/checkIn" component={CheckIn}/>
+                                <Route path="/instantQuestions" component={InstantQuestions}/>
                                 <Route path="/ongoingEvents" component={() => <OngoingEventsTable isAdmin = {showAdminBoard}/>}/>
                             </Switch>
                         </div>

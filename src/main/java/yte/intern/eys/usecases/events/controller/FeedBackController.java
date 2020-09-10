@@ -47,4 +47,12 @@ public class FeedBackController {
     public List<EventSubmissionsPerDayDTO> getEventsSubmissionCountPerDay(@PathVariable(value= "eventName") String eventName) {
         return feedBackService.getSubmissionsPerDay(eventName);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/winner/{eventName}")
+    public UserDTO getWinner(@PathVariable(value= "eventName") String eventName) {
+        return feedBackService.getWinner(eventName);
+    }
+
+
 }

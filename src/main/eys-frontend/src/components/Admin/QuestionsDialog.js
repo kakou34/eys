@@ -3,11 +3,10 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
-import DialogContentText from '@material-ui/core/DialogContentText';
 import Button from "@material-ui/core/Button";
-import BarChart from "./BarChart";
+import InstantQuestions from "./InstantQuestions";
 
-export default function BarChartDialog(props) {
+export default function QuestionsDialog(props) {
     return (
         <div>
             <Dialog
@@ -16,13 +15,9 @@ export default function BarChartDialog(props) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">{"Event Applications Per Day"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Event instant questions"}</DialogTitle>
                 <DialogContent>
-                    {(props.rows.length > 0) ? (<BarChart rows = { props.rows } title =""/>) : (
-                        <DialogContentText id="alert-dialog-description">
-                            There is no data available for this event. No Applications were made.
-                        </DialogContentText>
-                    ) }
+                    <InstantQuestions eventName = {props.eventName}/>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={props.onClose} color="primary">

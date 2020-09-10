@@ -17,6 +17,7 @@ import yte.intern.eys.usecases.ongoingevents.mapper.InstantMessageMapper;
 import yte.intern.eys.usecases.ongoingevents.repository.InstantMessageRepository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,18 +57,28 @@ public class OngoingEventService {
         return false;
     }
 
-    public MessageResponse askQuestion(String eventName, String username, InstantMessageDTO messageDTO) {
-        Optional<FormSubmission> formSubmissionOptional = formSubmissionRepository.findByUserAndEvent(username, eventName);
+    public MessageResponse askQuestion(InstantMessageDTO messageDTO) {
+        Optional<FormSubmission> formSubmissionOptional = formSubmissionRepository.findByUserAndEvent(messageDTO.getUsername(), messageDTO.getEventName());
         if (formSubmissionOptional.isPresent()) {
             FormSubmission formSubmission = formSubmissionOptional.get();
             if (formSubmission.getCheckIn()) {
                 //send question
-                InstantMessage instantMessage = instantMessageMapper.mapToEntity(messageDTO);
+                InstantMessage instantMessage = new InstantMessage();
+                instantMessage.setQuestion(messageDTO.question);
                 instantMessage.setEvent(formSubmission.getEvent());
                 instantMessage.setUser(formSubmission.getUser());
                 instantMessageRepository.save(instantMessage);
                 return new MessageResponse(" Your question has been sent successfully ", SUCCESS);
-            } else return new MessageResponse(String.format("Sorry, you did not check in for %s ", eventName), ERROR);
-        } else return new MessageResponse(String.format("Sorry, you did not apply for %s ", eventName), ERROR);
+            } else return new MessageResponse(String.format("Sorry, you did not check in for %s ", messageDTO.getEventName()), ERROR);
+        } else return new MessageResponse(String.format("Sorry, you did not apply for %s ", messageDTO.getEventName()), ERROR);
+    }
+
+    public List<InstantMessageDTO> findByEventName (String eventName) {
+        List<InstantMessage> messages = instantMessageRepository.findByEventName(eventName);
+        List<InstantMessageDTO> messageDTOList = new ArrayList<>();
+        for (InstantMessage message: messages) {
+            messageDTOList.add(new InstantMessageDTO(message.getQuestion(), message.getEvent().getName(), message.getUser().getUsername()));
+        }
+        return messageDTOList;
     }
 }

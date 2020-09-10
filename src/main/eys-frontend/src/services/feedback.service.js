@@ -14,9 +14,14 @@ const getEventSubmissionsPerDay = (eventName) => {
     return axios.get("/feedback/EventsSubmissionCountPerDay/" + encodeURIComponent(eventName), {headers : authHeader()});
 }
 
+const getWinner = (eventName) => {
+    return axios.get("/feedback/winner/" + encodeURIComponent(eventName), {headers : authHeader()});
+}
+
 
 export default {
     getAnswers,
     getSubmissionsPerEvent,
     getEventSubmissionsPerDay,
+    getWinner,
 }

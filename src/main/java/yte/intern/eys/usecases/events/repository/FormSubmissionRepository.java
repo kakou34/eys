@@ -17,4 +17,7 @@ public interface FormSubmissionRepository extends JpaRepository<FormSubmission, 
 
     @Query("SELECT new yte.intern.eys.usecases.events.dto.EventSubmissionsPerDayDTO(fs.appDate, COUNT(fs.id)) FROM FormSubmission AS fs where fs.event.name=:eventName GROUP BY fs.appDate ")
     List<EventSubmissionsPerDayDTO> getSubmissionPerDay(String eventName, Pageable pageable);
+
+    @Query(" select fs.user.id from FormSubmission fs where fs.event.name = :eventName and fs.checkIn = true ")
+    List<Long> findAttendeesByEvent(String eventName);
 }

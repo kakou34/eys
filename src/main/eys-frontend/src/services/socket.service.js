@@ -14,25 +14,23 @@ const toastOptions = {
 };
 
 let stompClient = null;
-const connectAdmin = ( function1 ) => {
-    let socket = new SockJS('/eys');
-    stompClient = Stomp.over(socket);
+let socket = new SockJS('/eys');
+stompClient = Stomp.over(socket);
+
+const connectAdmin = (eventName) => {
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/newApplication', function (notification) {
-            function1(notification);
+        stompClient.subscribe('/topic/newMessage', function (event) {
+             return (eventName === event.body);
         });
-    });
+    })
 }
+
 
 const connectUser = () => {
-    let socket = new SockJS('/eys');
-    stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
     });
 }
-
 
 function disconnect() {
     if (stompClient !== null) {
@@ -41,20 +39,20 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendMessage() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'message': "Kaouther"}));
+function sendApplicationNotification(message) {
+    stompClient.send("/app/notification", {}, message);
 }
 
-function sendApplicationNotification (message) {
-    console.log("sending notif");
-    stompClient.send("/app/notification", {}, message);
+function sendNewMessageNotif(eventName) {
+    console.log("eventname: " + eventName);
+    stompClient.send("/app/newMessage", {}, eventName);
 }
 
 export default {
     connectAdmin,
     connectUser,
     disconnect,
-    sendMessage,
     sendApplicationNotification,
+    sendNewMessageNotif,
 }
 

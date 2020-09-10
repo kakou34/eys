@@ -6,13 +6,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import authHeader from "../../services/auth-header";
 import AuthService from "../../services/auth.service";
 import OngoingService from "../../services/ongoing.service"
+
 import ReactDialog from "./ReactDialog";
+import QuestionsDialog from "../Admin/QuestionsDialog";
+import SocketService from "../../services/socket.service";
 
 export default function OngoingEventsTable(props) {
-    const [rows, updateRows] = useState([]);
-
-    const [currentEvent, setCurrentEvent] = useState("");
-    const currentUser = AuthService.getCurrentUser();
     const toastOptions = {
         position: "top-right",
         autoClose: 5000,
@@ -22,11 +21,18 @@ export default function OngoingEventsTable(props) {
         draggable: false,
         progress: undefined,
     };
-
+    const [rows, updateRows] = useState([]);
+    const currentUser = AuthService.getCurrentUser();
     const [isAddQuestionModalOpen, updateIsAddQuestionModalOpen] = React.useState(false);
+    const [questionsRows, updateQuestionsRows] = React.useState([]);
+    const [currentEvent, setCurrentEvent] = useState("");
+    const [isQuestionsDialogOpen, updateIsQuestionsDialogOpen] = React.useState(false);
 
     const toggleAddQuestionModal = () => {
         updateIsAddQuestionModalOpen(!isAddQuestionModalOpen);
+    }
+    const toggleQuestionsDialog = () => {
+        updateIsQuestionsDialogOpen(!isQuestionsDialogOpen);
     }
     const questionDialogFields = [
         {id: "question", label: "Question", type: "text"},
@@ -34,10 +40,10 @@ export default function OngoingEventsTable(props) {
 
     const submitQuestionAdd = (inputData) => {
         toggleAddQuestionModal();
-
         OngoingService.addQuestion(currentEvent, currentUser.username, inputData)
             .then(response => {
                 if (response.data.messageType === "SUCCESS") {
+                    SocketService.sendNewMessageNotif(currentEvent);
                     toast.success(response.data.message, toastOptions);
                 } else {
                     toast.error(response.data.message, toastOptions);
@@ -45,6 +51,9 @@ export default function OngoingEventsTable(props) {
             });
     }
     useEffect(() => {
+        if (currentUser.authorities.includes("ROLE_ADMIN")) {
+
+        }
         axios.get("/ongoing/events", {headers: authHeader()})
             .then(response => {
                 updateRows(response.data)
@@ -52,7 +61,12 @@ export default function OngoingEventsTable(props) {
     }, [])
 
     const onShowInstantQs = (eventName) => {
-        toast.success("here ur questions", toastOptions);
+        OngoingService.getQuestions(eventName).then(response => {
+            let questions = response.data;
+            setCurrentEvent(eventName);
+            updateQuestionsRows(questions);
+            toggleQuestionsDialog();
+        });
     }
 
     const onSendInstantMsg = (eventName) => {
@@ -61,8 +75,8 @@ export default function OngoingEventsTable(props) {
         axios.get(url, {headers: authHeader()}).then(response => {
             isAllowed = response.data;
             if (isAllowed) {
-                toggleAddQuestionModal();
                 setCurrentEvent(eventName);
+                toggleAddQuestionModal();
             } else toast.error("You did not check in for this event.", toastOptions);
         });
 
@@ -84,13 +98,21 @@ export default function OngoingEventsTable(props) {
 
     return (
         <div>
-            {(rows.length > 0) ? (<PaginationTable rows={rows} columns={eventsTableColumns}/>) : (
+            {(rows.length > 0) ? (
+                <div>
+                    <PaginationTable rows={rows} columns={eventsTableColumns}/>
+                    <ReactDialog fields={questionDialogFields} title="Ask a question" isOpen={isAddQuestionModalOpen}
+                                 onClose={toggleAddQuestionModal}
+                                 onSubmit={submitQuestionAdd}/>
+                    <QuestionsDialog rows={questionsRows}
+                                     eventName={currentEvent}
+                                     isOpen={isQuestionsDialogOpen}
+                                     onClose={toggleQuestionsDialog}
+                    />
+                </div>
+            ) : (
                 <h3>There are no ongoing Events currently...</h3>
             )}
-
-            <ReactDialog fields={questionDialogFields} title="Add Question" isOpen={isAddQuestionModalOpen}
-                         onClose={toggleAddQuestionModal}
-                         onSubmit={submitQuestionAdd}/>
         </div>
     );
 

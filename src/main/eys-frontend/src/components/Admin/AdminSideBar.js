@@ -12,6 +12,8 @@ import List from '@material-ui/core/List';
 import {Link} from "react-router-dom";
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import DoneAllIcon from '@material-ui/icons/DoneAll';
+import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
+import RedeemIcon from '@material-ui/icons/Redeem';
 
 const ListItemsAdmin = () => {
     return (
@@ -33,7 +35,7 @@ const ListItemsAdmin = () => {
                     <ListItemIcon>
                         <ListIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Event List"/>
+                    <ListItemText primary="Upcoming Events"/>
                 </ListItem>
                 <ListItem button component={Link} to="/statistics">
                     <ListItemIcon>
@@ -41,17 +43,23 @@ const ListItemsAdmin = () => {
                     </ListItemIcon>
                     <ListItemText primary="Statistics"/>
                 </ListItem>
+                <ListItem button component={Link} to="/ongoingEvents">
+                    <ListItemIcon>
+                        <QueryBuilderIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary="Ongoing Events"/>
+                </ListItem>
                 <ListItem button component={Link} to="/checkIn">
                     <ListItemIcon>
                         <DoneAllIcon/>
                     </ListItemIcon>
                     <ListItemText primary="Check In"/>
                 </ListItem>
-                <ListItem button component={Link} to="/ongoingEvents">
+                <ListItem button component={Link} to="/giveaway">
                     <ListItemIcon>
-                        <DoneAllIcon/>
+                        <RedeemIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Ongoing Events"/>
+                    <ListItemText primary="Giveaway"/>
                 </ListItem>
             </List>
             <Divider/>

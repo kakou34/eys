@@ -13,8 +13,8 @@ import javax.persistence.*;
 @Setter
 @SequenceGenerator(name = "idgen", sequenceName = "IMES_SEQ")
 public class InstantMessage extends BaseEntity {
-    @Column(name = "Content")
-    private String content;
+    @Column(name = "QUESTION")
+    private String question;
 
     @ManyToOne
     @JoinColumn(name="EVENT_ID", nullable=false)
