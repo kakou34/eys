@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import yte.intern.eys.usecases.events.dto.EventSubmissionsPerDayDTO;
+import yte.intern.eys.usecases.events.entity.Event;
 import yte.intern.eys.usecases.events.entity.FormSubmission;
 
 import java.util.List;
@@ -20,4 +21,7 @@ public interface FormSubmissionRepository extends JpaRepository<FormSubmission, 
 
     @Query(" select fs.user.id from FormSubmission fs where fs.event.name = :eventName and fs.checkIn = true ")
     List<Long> findAttendeesByEvent(String eventName);
+
+    @Query(" select fs.event.id from FormSubmission fs where fs.user.username = :username and fs.checkIn = true ")
+    List<Long> findEventsByAttendee(String username);
 }
