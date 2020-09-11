@@ -10,9 +10,9 @@ function BarGroup(props) {
     let yMid = props.barHeight * 0.5
 
     return <g className="bar-group">
-        <text className="name-label" x="60" y={yMid} alignmentBaseline="middle" >{props.d.name}</text>
-        <rect x="75" y={barPadding * 0.5} width={width} height={props.barHeight - barPadding} fill={barColour} />
-        <text className="value-label" x={width + 75 - 8} y={yMid} alignmentBaseline="middle" >{props.d.value}</text>
+        <text className="name-label" x="100" y={yMid} alignmentBaseline="middle" >{props.d.name}</text>
+        <rect x="120" y={barPadding * 0.5} width={width} height={props.barHeight - barPadding} fill={barColour} />
+        <text className="value-label" x={width + 120 - 3} y={yMid} alignmentBaseline="middle" >{props.d.value}</text>
     </g>
 }
 
@@ -26,9 +26,9 @@ export default class BarChart extends React.Component {
                     <BarGroup d={d} barHeight={barHeight}/>
                 </g>);
         }
-        return <svg width="1000" height="500" >
-            <g className="container">
-                <text className="title" x="10" y="30">{this.props.title}</text>
+        return <svg id="BarChartSvg" width="1000" height="500" >
+            <g className="container" id="BarChart">
+                <text className="title" x={20} y="30">{this.props.title}</text>
                 <g className="chart" transform="translate(100,60)">
                     {barGroups}
                 </g>

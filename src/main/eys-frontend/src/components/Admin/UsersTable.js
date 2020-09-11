@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 
 import authHeader from "../../services/auth-header";
+import Copyright from "../Common/Copyright";
+import Box from "@material-ui/core/Box";
 export default function UsersTable(props) {
 
     const [rows, updateRows] = useState([]);
@@ -31,6 +33,9 @@ export default function UsersTable(props) {
     return (
         <div className="App">
             <PaginationTable rows={rows} columns={usersTableColumns}/>
+            <Box mt={5}>
+                <Copyright />
+            </Box>
         </div>
     );
 

@@ -45,7 +45,16 @@
   font-size: large;
   margin: 15px;
 }
-
- a:hover {
-  color: dodgerblue;
+a{
+  text-decoration: none;
 }
+ a:hover {
+  color: #348AA7;
+}
+ h3 {
+   margin: 10px;
+ }
+
+
+
+

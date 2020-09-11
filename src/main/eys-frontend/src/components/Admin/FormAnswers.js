@@ -7,6 +7,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Container from "@material-ui/core/Container";
+import Copyright from "../Common/Copyright";
+import Box from "@material-ui/core/Box";
 
 const FormAnswers = () => {
     const eventName = useParams().eventName;
@@ -42,7 +44,9 @@ const FormAnswers = () => {
                 </Grid>
 
             </Grid>
-
+            <Box mt={5}>
+                <Copyright />
+            </Box>
         </Container>
     );
 

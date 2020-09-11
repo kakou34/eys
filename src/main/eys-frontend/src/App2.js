@@ -43,6 +43,7 @@ import './style/App.css';
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 import SurveyResults from "./components/Admin/SurveyResults";
+import Copyright from "./components/Common/Copyright";
 
 const drawerWidth = 240;
 const toastOptions = {
@@ -266,6 +267,7 @@ export default function App() {
                             </Switch>
                         </div>
                     </Typography>
+                    <Copyright/>
                 </main>
             </div>
         </Router>

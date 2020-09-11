@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from "../Common/Copyright";
 import EventService from "../../services/event.service";
-import {toast, ToastContainer} from 'react-toastify';
+import {toast} from 'react-toastify';
 
 const useStyles = makeStyles((theme) => ({
     paper: {

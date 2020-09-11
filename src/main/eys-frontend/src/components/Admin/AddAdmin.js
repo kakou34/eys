@@ -6,6 +6,8 @@ import {isEmail} from "validator";
 
 import AuthService from "../../services/auth.service";
 import Container from "@material-ui/core/Container";
+import Copyright from "../Common/Copyright";
+import Box from "@material-ui/core/Box";
 
 const required = (value) => {
     if (!value) {
@@ -216,6 +218,7 @@ const AddAdmin = (props) => {
                     </Form>
                 </div>
             </div>
+
         </Container>
     );
 };

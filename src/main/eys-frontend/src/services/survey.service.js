@@ -16,7 +16,6 @@ const deleteQuestion = (eventName, question) => {
 }
 
 const addAnswer = (eventName, userName, question, answer) => {
-    console.log(answer);
     let url = "/survey/" + encodeURIComponent(eventName) +"/" + encodeURIComponent(userName) + "/" + encodeURIComponent(question) ;
     return axios.post( url , answer, { headers: authHeader() } );
 }

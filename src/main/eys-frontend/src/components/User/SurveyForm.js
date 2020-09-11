@@ -59,21 +59,33 @@ export default function SurveyForm(props) {
         updateRows(rows);
     }
 
+
     const handleSubmit = () => {
-        rows.forEach(row => {
-            SurveyService.addAnswer(eventName, currentUser.username, row.question, row).then(
-                response => {
-                    if(response.data.messageType === "ERROR"){
+        const rowLen = rows.length;
+        rows.forEach((row,i) => {
+            let error = false;
+            if(rowLen === i + 1 ) {
+                SurveyService.addAnswer(eventName, currentUser.username, row.question, row).then(
+                    response => {
+                        if(response.data.messageType === "ERROR"){
+                            error = true
+                        }
 
-                        if(response.data.message === "could not execute statement") {
-                            toast.error(row.question + ": You have already answered this question", toastOptions);
-                        } else toast.error(row.question + ": " + response.data.message, toastOptions);
+                        if(error) toast.error("Survey not submitted", toastOptions);
+                        else toast.success("Survey successfully submitted", toastOptions);
                     }
-                }
-            )
+                )
+            } else {
+                SurveyService.addAnswer(eventName, currentUser.username, row.question, row).then(
+                    response => {
+                        if(response.data.messageType === "ERROR"){
+                            error = true;
+                        }
+                    }
+                )
+            }
+
         });
-
-
     }
 
 

@@ -1,12 +1,9 @@
 import React, {useEffect} from 'react';
 import Divider from "@material-ui/core/Divider";
-import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
-import {ToastContainer} from "react-toastify";
 import { makeStyles } from '@material-ui/core/styles';
 import 'react-toastify/dist/ReactToastify.css';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Copyright from "../Common/Copyright";
 import PaginationTable from "../table/PaginationTable";
 import BarChartDialog from "../BarChart/BarChartDialog";
 import BarChart from "../BarChart/BarChart";
@@ -32,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(3, 0, 2),
     },
     table: {
-        minWidth: 650,
+        minWidth: 600,
+        margin: theme.spacing(3, 0, 2),
     },
 }));
 
@@ -97,12 +95,9 @@ export default function Statistics() {
                 <Container maxWidth={"sm"}>
                     <PaginationTable rows={rows} columns={eventsTableColumns}/>
                 </Container>
-                <ToastContainer/>
             </div>
             <BarChartDialog rows={dialogRows} isOpen={isDialogOpen} onClose={toggleDialog}/>
-            <Box mt={5}>
-                <Copyright />
-            </Box>
+
         </Container>
     );
 }

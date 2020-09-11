@@ -15,6 +15,8 @@ import {makeStyles} from "@material-ui/core/styles";
 import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
 import QuestionsDialog from "./QuestionsDialog";
 import AnswersDialog from "./AnswersDialog";
+import Copyright from "../Common/Copyright";
+import Box from "@material-ui/core/Box";
 const useStyles = makeStyles((theme) => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -107,6 +109,9 @@ export default function SurveyResults(props) {
                              isOpen={isAnswersDialogOpen}
                              onClose={toggleAnswersDialog}
             />
+            <Box mt={5}>
+                <Copyright />
+            </Box>
         </div>
     );
 }

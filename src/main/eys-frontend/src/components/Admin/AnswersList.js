@@ -10,6 +10,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import SurveyService from "../../services/survey.service";
+import Copyright from "../Common/Copyright";
+import Box from "@material-ui/core/Box";
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
@@ -64,6 +66,9 @@ const AnswersList = (props) => {
                     </Grid>
                 </Grid>
             </div>
+            <Box mt={5}>
+                <Copyright />
+            </Box>
         </Container>
 
     );
