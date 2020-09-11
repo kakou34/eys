@@ -63,6 +63,10 @@ public class Event extends BaseEntity {
         return surveyQuestions.stream().filter(it -> it.getQuestion().equalsIgnoreCase(question)).findFirst();
     }
 
+    public boolean hasSurvey() {
+        return (surveyQuestions.size()>0);
+    }
+
 
 }
 

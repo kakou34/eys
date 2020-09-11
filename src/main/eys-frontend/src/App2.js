@@ -38,6 +38,7 @@ import Giveaway from "./components/Admin/Giveaway";
 import OngoingEventsTable from "./components/Common/OngoingEventsTable";
 import InstantQuestions from "./components/Admin/InstantQuestions";
 import OldEvents from "./components/User/OldEvents";
+import SurveyForm from "./components/User/SurveyForm";
 import './style/App.css';
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
@@ -250,6 +251,7 @@ export default function App() {
                                 <Route path="/availableEvents" component={(routeProps) => <EventsTable {...routeProps} isNext={true} isAdmin = {showAdminBoard} /> } />
                                 <Route path="/updateEvent/:eventName" component={UpdateEvent}/>
                                 <Route path="/apply/:eventName" component={(routeProps) => <ApplicationForm {...routeProps} /> } />
+                                <Route path="/survey/:eventName" component={(routeProps) => <SurveyForm {...routeProps} /> } />
                                 <Route path="/applicants/:eventName" component={(routeProps) => <UsersTable {...routeProps} /> } />
                                 <Route path="/answers/:eventName/:username" component={FormAnswers}/>
                                 <Route path="/image/:eventName/:imgType" component={ImageViewerSender} />

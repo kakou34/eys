@@ -59,4 +59,10 @@ public class SurveyController {
         SurveyAnswerDTO surveyAnswerDTO = new SurveyAnswerDTO(answer);
         return surveyService.addAnswer(eventName, userName, question, surveyAnswerMapper.mapToEntity(surveyAnswerDTO));
     }
+
+    //check if event has a survey
+    @GetMapping("/{eventName}/hasSurvey")
+    public boolean hasSurvey(@PathVariable(value = "eventName") String eventName) {
+        return surveyService.hasSurvey(eventName);
+    }
 }

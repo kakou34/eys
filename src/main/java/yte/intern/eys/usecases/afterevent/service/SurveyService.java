@@ -82,6 +82,11 @@ public class SurveyService {
         } else return new MessageResponse(String.format("You did not apply for %s", eventName), ERROR);
     }
 
+    //check if event has a survey
+    public boolean hasSurvey (String eventName) {
+        Optional<Event> eventOptional = eventRepository.findByName(eventName);
+        return eventOptional.map(Event::hasSurvey).orElse(false);
+    }
 
     //get answers of question
 }
