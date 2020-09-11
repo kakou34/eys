@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from "../Common/Copyright";
 import EventService from "../../services/event.service"
+import SurveyService from "../../services/survey.service";
 import axios from "axios";
 import authHeader from "../../services/auth-header";
 import { useParams } from "react-router-dom";
@@ -66,18 +67,39 @@ export default function UpdateEvent(props) {
     const handleStartDateChange = event => setStartDate(event.target.value);
     const handleEndDateChange = event => setEndDate(event.target.value);
 
-    const questionDialogFields = [
-        {id: "question", label: "Question", type: "text"},
+    const fQuestionDialogFields = [
+        {id: "question", label: "Form Question", type: "text"},
+    ]
+    const sQuestionDialogFields = [
+        {id: "question", label: "Survey Question", type: "text"},
     ]
     const [rows, updateRows] = React.useState([]);
-    const [isAddQuestionModalOpen, updateIsAddQuestionModalOpen] = React.useState(false);
+    const [surveyRows, updateSurveyRows] = React.useState([]);
+    const [isAddFQuestionModalOpen, updateIsAddFQuestionModalOpen] = React.useState(false);
+    const [isAddSQuestionModalOpen, updateIsAddSQuestionModalOpen] = React.useState(false);
+    const toggleAddFQuestionModal = () => {
+        updateIsAddFQuestionModalOpen(!isAddFQuestionModalOpen);
+    }
+    const toggleAddSQuestionModal = () => {
+        updateIsAddSQuestionModalOpen(!isAddSQuestionModalOpen);
+    }
 
-    const toggleAddQuestionModal = () => {
-        updateIsAddQuestionModalOpen(!isAddQuestionModalOpen);
+    const submitSurveyQuestionAdd = (inputData) => {
+        toggleAddSQuestionModal();
+        SurveyService.addQuestion(eventName, inputData)
+            .then(response => {
+                console.log(response.data);
+                if (response.data.messageType === "SUCCESS") {
+                    toast.success(response.data.message, toastOptions);
+                    updateSurveyRows([...surveyRows, inputData]);
+                } else {
+                    toast.error(response.data.message, toastOptions);
+                }
+            });
     }
 
     const submitQuestionAdd = (inputData) => {
-        toggleAddQuestionModal();
+        toggleAddFQuestionModal();
         EventService.addQuestion(eventName, inputData)
             .then(response => {
                 console.log(response.data);
@@ -127,6 +149,18 @@ export default function UpdateEvent(props) {
             })
     }
 
+    const onSurveyQuestionDelete = (eventName, question) => {
+        SurveyService.deleteQuestion(eventName, question)
+            .then(response => {
+                if (response.data.messageType === "SUCCESS") {
+                    updateSurveyRows(surveyRows.filter((row) => row.question !== question));
+                    toast.success(response.data.message, toastOptions);
+                } else {
+                    toast.error(response.data.message, toastOptions);
+                }
+            })
+    }
+
 
     useEffect(() => {
         axios.get("/events/" + encodeURIComponent(eventName), { headers: authHeader() })
@@ -141,7 +175,14 @@ export default function UpdateEvent(props) {
             });
         EventService.getEventQuestion(eventName)
             .then(response => {
-                updateRows(response.data)
+                console.log(response.data);
+                updateRows(response.data);
+            })
+
+        SurveyService.getEventQuestion(eventName)
+            .then(response => {
+                console.log(response.data);
+                updateSurveyRows(response.data)
             })
 
 
@@ -291,13 +332,13 @@ export default function UpdateEvent(props) {
                                     variant="contained"
                                     color="primary"
                                     className={classes.button}
-                                    onClick={toggleAddQuestionModal}
+                                    onClick={toggleAddFQuestionModal}
                                     endIcon={<AddCircleOutlineIcon/>}
                                 >
                                     Add Question
                                 </Button>
-                                <ReactDialog fields={questionDialogFields} title="Add Question" isOpen={isAddQuestionModalOpen}
-                                             onClose={toggleAddQuestionModal} infos = {null}
+                                <ReactDialog fields={fQuestionDialogFields} title="Add Form Question" isOpen={isAddFQuestionModalOpen}
+                                             onClose={toggleAddFQuestionModal}
                                              onSubmit={submitQuestionAdd}/>
                             </TableCell>
                         </TableRow>
@@ -313,6 +354,50 @@ export default function UpdateEvent(props) {
                                         aria-label={row.question}
                                         color="primary"
                                         onClick={() => onQuestionDelete(eventName, row.question)}
+                                    >
+                                        <DeleteIcon/>
+                                    </IconButton>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+            <Divider/>
+            <h3>Survey Questions</h3>
+            <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Question</TableCell>
+                            <TableCell align="right">
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.button}
+                                    onClick={toggleAddSQuestionModal}
+                                    endIcon={<AddCircleOutlineIcon/>}
+                                >
+                                    Add Question
+                                </Button>
+                                <ReactDialog fields={sQuestionDialogFields} title="Add Survey Question" isOpen={isAddSQuestionModalOpen}
+                                             onClose={toggleAddSQuestionModal}
+                                             onSubmit={submitSurveyQuestionAdd}/>
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {surveyRows.map((row) => (
+                            <TableRow key={row.question}>
+                                <TableCell component="th" scope="row">
+                                    {row.question}
+                                </TableCell>
+                                <TableCell align="right">
+                                    <IconButton
+                                        aria-label={row.question}
+                                        color="primary"
+                                        onClick={() => onSurveyQuestionDelete(eventName, row.question)}
                                     >
                                         <DeleteIcon/>
                                     </IconButton>

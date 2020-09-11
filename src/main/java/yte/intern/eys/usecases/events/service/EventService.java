@@ -4,8 +4,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yte.intern.eys.usecases.common.dto.MessageResponse;
+import yte.intern.eys.usecases.events.dto.FormQuestionDTO;
 import yte.intern.eys.usecases.events.entity.Event;
 import yte.intern.eys.usecases.events.entity.FormQuestion;
+import yte.intern.eys.usecases.events.mapper.FormQuestionMapper;
 import yte.intern.eys.usecases.events.repository.EventRepository;
 import yte.intern.eys.usecases.events.repository.FormQuestionRepository;
 import javax.persistence.EntityNotFoundException;
@@ -21,6 +23,7 @@ import static yte.intern.eys.usecases.common.enums.MessageType.SUCCESS;
 public class EventService {
     private final EventRepository eventRepository;
     private final FormQuestionRepository formQuestionRepository;
+    private final FormQuestionMapper formQuestionMapper;
 
     public List<Event> listAllEvents() {
         return eventRepository.findAll(Sort.by(Sort.Direction.DESC, "startDate"));
@@ -94,11 +97,13 @@ public class EventService {
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    public MessageResponse addFormQuestionToEvent(String eventName, FormQuestion formQuestion) {
+    public MessageResponse addFormQuestionToEvent(String eventName, FormQuestionDTO formQuestionDTO) {
+        FormQuestion formQuestion = formQuestionMapper.mapToEntity(formQuestionDTO);
+        String question = formQuestion.getQuestion();
         Optional<Event> eventOptional = eventRepository.findByName(eventName);
         if (eventOptional.isPresent()) {
             Event event = eventOptional.get();
-            if (event.hasFormQuestion(formQuestion.getQuestion())) {
+            if (event.hasFormQuestion(question)) {
                 return new MessageResponse("This question already exists", ERROR);
             }
             formQuestion.setEvent(event);

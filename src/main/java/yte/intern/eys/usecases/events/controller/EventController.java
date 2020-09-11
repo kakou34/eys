@@ -82,7 +82,8 @@ public class EventController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{eventName}/questions")
     public MessageResponse addQuestionToEvent(@PathVariable(value = "eventName") String name, @RequestBody @Valid FormQuestionDTO formQuestionDTO) {
-        return eventService.addFormQuestionToEvent(name, formQuestionMapper.mapToEntity(formQuestionDTO));
+
+        return eventService.addFormQuestionToEvent(name, formQuestionDTO);
     }
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{eventName}/questions/{question}")

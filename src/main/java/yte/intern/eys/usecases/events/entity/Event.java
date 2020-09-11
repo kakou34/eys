@@ -52,7 +52,7 @@ public class Event extends BaseEntity {
     }
 
     public boolean hasSurveyQuestion(String question) {
-        return surveyQuestions.stream().anyMatch(it -> it.getQuestion().equalsIgnoreCase(question));
+        return surveyQuestions.stream().anyMatch(it -> it.getQuestion().equals(question));
     }
 
     public Optional<FormQuestion> getFormQuestion(String question) {
