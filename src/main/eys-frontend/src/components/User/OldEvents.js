@@ -39,15 +39,12 @@ export default function OldEvents(props) {
                 props.history.push("/survey/" + eventName );
             } else toast.info("This event has no survey", toastOptions)
         })
-
     }
-
     const oldEventsTableColumns = [
         {id: 'name', label: 'Event Name', minWidth: 170},
         {id: 'certificate', label: 'Participation Certificate', align: 'center', onClick: onShowCertificate},
         {id: 'survey', label: 'Answer Survey', align: 'right', onClick: onShowSurvey}
     ];
-
     return (
         <div>
             <PaginationTable rows={rows} columns={oldEventsTableColumns}/>

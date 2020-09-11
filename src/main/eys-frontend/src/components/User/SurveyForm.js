@@ -60,15 +60,14 @@ export default function SurveyForm(props) {
     }
 
     const handleSubmit = () => {
-        let feedback = '';
         rows.forEach(row => {
-            SurveyService.addAnswer(eventName, currentUser.username, row.question, row.answer).then(
+            SurveyService.addAnswer(eventName, currentUser.username, row.question, row).then(
                 response => {
                     if(response.data.messageType === "ERROR"){
+
                         if(response.data.message === "could not execute statement") {
                             toast.error(row.question + ": You have already answered this question", toastOptions);
                         } else toast.error(row.question + ": " + response.data.message, toastOptions);
-
                     }
                 }
             )

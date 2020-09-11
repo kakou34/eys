@@ -5,6 +5,7 @@ import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EventService from "../../services/event.service";
 import authHeader from "../../services/auth-header";
+import SurveyService from "../../services/survey.service";
 export default function EventsTable(props) {
 
     const [rows, updateRows] = useState([]);
@@ -20,7 +21,6 @@ export default function EventsTable(props) {
     };
 
     useEffect(() => {
-        console.log(props.isNext);
         axios.get("/events/" + (props.isNext ? "next" : "old"), { headers: authHeader() })
             .then(response => {
                 updateRows(response.data)
@@ -48,6 +48,13 @@ export default function EventsTable(props) {
     const onShowApplicants = (eventName) => {
         props.history.push("/applicants/" + eventName);
     }
+    const onSurveyResults = (eventName) => {
+        SurveyService.hasSurvey(eventName).then(response => {
+            if(response.data) {
+                props.history.push("/surveyResults/" + eventName );
+            } else toast.info("This event has no survey", toastOptions)
+        })
+    }
     const onOpenMaps = (altitude, longitude) => {
             const link = "https://www.google.com/maps/search/?api=1&query="+ altitude +","+ longitude ;
             window.open(link, "_blank");
@@ -65,6 +72,12 @@ export default function EventsTable(props) {
             {id: 'quota', label: 'Quota', minWidth: 80},
             {id: 'altitude', label: 'Latitude', minWidth: 100},
             {id: 'longitude', label: 'longitude', minWidth: 100},
+        )
+    }
+    if(!props.isNext && props.isAdmin) {
+        eventsTableColumns.push(
+            {id: "survey", label: "Survey results", align: "right", onClick: onSurveyResults},
+
         )
     }
 

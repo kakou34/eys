@@ -16,6 +16,7 @@ const deleteQuestion = (eventName, question) => {
 }
 
 const addAnswer = (eventName, userName, question, answer) => {
+    console.log(answer);
     let url = "/survey/" + encodeURIComponent(eventName) +"/" + encodeURIComponent(userName) + "/" + encodeURIComponent(question) ;
     return axios.post( url , answer, { headers: authHeader() } );
 }
@@ -24,10 +25,16 @@ const hasSurvey = (eventName) => {
     return axios.get("/survey/" + encodeURIComponent(eventName) + "/hasSurvey", { headers: authHeader() } );
 }
 
+const getAnswers = (eventName, question) => {
+    return axios.get("/survey/" + encodeURIComponent(eventName) +"/" + encodeURIComponent(question)+ "/answers", { headers: authHeader() } );
+
+}
+
 export default {
     addQuestion,
     getEventQuestion,
     deleteQuestion,
     addAnswer,
     hasSurvey,
+    getAnswers
 }

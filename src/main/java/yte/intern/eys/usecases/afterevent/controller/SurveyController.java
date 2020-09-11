@@ -55,8 +55,8 @@ public class SurveyController {
     public MessageResponse answerSurveyQuestion(@PathVariable(value = "eventName") String eventName,
                                               @PathVariable(value = "userName") String userName,
                                               @PathVariable(value = "question") String question,
-                                              @RequestBody String answer) {
-        SurveyAnswerDTO surveyAnswerDTO = new SurveyAnswerDTO(answer);
+                                              @RequestBody SurveyAnswerDTO surveyAnswerDTO) {
+        System.out.println(surveyAnswerDTO.answer);
         return surveyService.addAnswer(eventName, userName, question, surveyAnswerMapper.mapToEntity(surveyAnswerDTO));
     }
 
@@ -64,5 +64,11 @@ public class SurveyController {
     @GetMapping("/{eventName}/hasSurvey")
     public boolean hasSurvey(@PathVariable(value = "eventName") String eventName) {
         return surveyService.hasSurvey(eventName);
+    }
+
+    //get answers to a specific question
+    @GetMapping("/{eventName}/{question}/answers")
+    public List<SurveyAnswerDTO> getAnswers(@PathVariable(value = "eventName") String eventName, @PathVariable(value = "question") String question ) {
+        return surveyService.getQuestionsAnswers(eventName,question);
     }
 }

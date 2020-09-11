@@ -42,6 +42,7 @@ import SurveyForm from "./components/User/SurveyForm";
 import './style/App.css';
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
+import SurveyResults from "./components/Admin/SurveyResults";
 
 const drawerWidth = 240;
 const toastOptions = {
@@ -247,11 +248,12 @@ export default function App() {
                                 <Route path="/addEvent" component={AddEvent}/>
                                 <Route path="/addAdmin" component={AddAdmin}/>
                                 <Route path="/NextEventsList" component={(routeProps) => <EventsTable {...routeProps} isNext={true} isAdmin = {showAdminBoard } /> } />
-                                <Route path="/OldEventsList" component={() => <EventsTable isNext={false}  isAdmin = {showAdminBoard}/>}/>
+                                <Route path="/OldEventsList" component={(routeProps) => <EventsTable {...routeProps}  isNext={false}  isAdmin = {showAdminBoard}/>}/>
                                 <Route path="/availableEvents" component={(routeProps) => <EventsTable {...routeProps} isNext={true} isAdmin = {showAdminBoard} /> } />
                                 <Route path="/updateEvent/:eventName" component={UpdateEvent}/>
                                 <Route path="/apply/:eventName" component={(routeProps) => <ApplicationForm {...routeProps} /> } />
                                 <Route path="/survey/:eventName" component={(routeProps) => <SurveyForm {...routeProps} /> } />
+                                <Route path="/surveyResults/:eventName" component={SurveyResults} />
                                 <Route path="/applicants/:eventName" component={(routeProps) => <UsersTable {...routeProps} /> } />
                                 <Route path="/answers/:eventName/:username" component={FormAnswers}/>
                                 <Route path="/image/:eventName/:imgType" component={ImageViewerSender} />

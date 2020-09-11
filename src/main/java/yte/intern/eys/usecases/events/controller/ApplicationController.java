@@ -34,8 +34,7 @@ public class ApplicationController {
     public MessageResponse answerFormQuestion(@PathVariable(value = "eventName") String eventName,
                                               @PathVariable(value = "userName") String userName,
                                               @PathVariable(value = "question") String question,
-                                              @RequestBody String answer) {
-        FormAnswerDTO formAnswerDTO = new FormAnswerDTO(answer);
+                                              @RequestBody FormAnswerDTO formAnswerDTO) {
         return applicationService.addAnswer(eventName, userName, question, formAnswerMapper.mapToEntity(formAnswerDTO));
     }
 

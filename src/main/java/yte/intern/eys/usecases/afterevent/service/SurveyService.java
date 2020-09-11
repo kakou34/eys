@@ -3,7 +3,10 @@ package yte.intern.eys.usecases.afterevent.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import yte.intern.eys.authentication.entity.User;
+import yte.intern.eys.usecases.afterevent.dto.SurveyAnswerDTO;
+import yte.intern.eys.usecases.afterevent.dto.SurveyQuestionDTO;
 import yte.intern.eys.usecases.afterevent.entity.SurveyAnswer;
+import yte.intern.eys.usecases.afterevent.mapper.SurveyAnswerMapper;
 import yte.intern.eys.usecases.afterevent.repository.SurveyAnswerRepository;
 import yte.intern.eys.usecases.afterevent.repository.SurveyQuestionRepository;
 import yte.intern.eys.usecases.common.dto.MessageResponse;
@@ -14,6 +17,8 @@ import yte.intern.eys.usecases.events.repository.EventRepository;
 import yte.intern.eys.usecases.events.repository.FormSubmissionRepository;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,6 +32,7 @@ public class SurveyService {
     private final SurveyQuestionRepository surveyQuestionRepository;
     private final SurveyAnswerRepository surveyAnswerRepository;
     private final FormSubmissionRepository formSubmissionRepository;
+    private final SurveyAnswerMapper surveyAnswerMapper;
 
     //Add survey question to event
     public MessageResponse addSurveyQuestionToEvent(String eventName, SurveyQuestion SurveyQuestion) {
@@ -89,4 +95,17 @@ public class SurveyService {
     }
 
     //get answers of question
+    public List<SurveyAnswerDTO> getQuestionsAnswers(String eventName, String question) {
+        List<SurveyAnswerDTO> surveyAnswerDTOList = new ArrayList<>();
+        Optional<Event> eventOptional = eventRepository.findByName(eventName);
+        if(eventOptional.isPresent()) {
+            if(eventOptional.get().hasSurveyQuestion(question)){
+                Optional<SurveyQuestion> surveyQuestionOptional = surveyQuestionRepository.findByQuestionAndEvent(question, eventOptional.get());
+                if(surveyQuestionOptional.isPresent()) {
+                    surveyAnswerDTOList = surveyAnswerMapper.mapToDto(surveyAnswerRepository.findBySurveyQuestion(surveyQuestionOptional.get()));
+                }
+            }
+        }
+        return surveyAnswerDTOList;
+    }
 }

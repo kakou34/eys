@@ -78,7 +78,7 @@ export default function ApplicationForm(props) {
                     if (response.data.messageType === "SUCCESS") {
                         //adding answers
                         rows.forEach(row => {
-                            ApplicationService.addAnswer(eventName, currentUser.username, row.question, row.answer).then(
+                            ApplicationService.addAnswer(eventName, currentUser.username, row.question, row).then(
                                 response => {
                                     if (response.data.messageType === "ERROR") toast.error(response.data.message, toastOptions);
                                 }
